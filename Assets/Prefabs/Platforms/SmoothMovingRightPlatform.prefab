@@ -79,7 +79,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 8578581075516829809}
   obstacles:
-  - {fileID: 1529207618470359110, guid: fc1f7eccf25685745aef3e78c08bdb5b, type: 3}
+  - {fileID: 1529207618470359110, guid: ababc1447a19df6418598b63a556840d, type: 3}
 --- !u!1 &3018603613430385507
 GameObject:
   m_ObjectHideFlags: 0

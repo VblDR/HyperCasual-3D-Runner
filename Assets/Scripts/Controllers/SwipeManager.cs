@@ -60,6 +60,8 @@ public class SwipeManager : MonoBehaviour
             Player.instance.Move(Direction.Right);
         if (Input.GetKeyDown(KeyCode.A))
             Player.instance.Move(Direction.Left);
+        if (Input.GetKeyDown(KeyCode.W))
+            Player.instance.Jump();
     }
 
     private void AndroidInput()
@@ -74,17 +76,26 @@ public class SwipeManager : MonoBehaviour
             {
                 startPos = Input.GetTouch(0).position;
             }
-            else if(Input.GetTouch(0).phase == TouchPhase.Moved)
+            else if(Input.GetTouch(0).phase == TouchPhase.Ended)
             {
                 deltaPos = Input.GetTouch(0).position - startPos;
 
                 if(deltaPos.magnitude > swipeTreshold)
                 {
-                    if (deltaPos.x > 0)
-                        Player.instance.Move(Direction.Right);
+                    if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
+                    {
+                        if (deltaPos.x > 0)
+                            Player.instance.Move(Direction.Right);
+                        else
+                            Player.instance.Move(Direction.Left);
+                    }
                     else
-                        Player.instance.Move(Direction.Left);
+                    {
+                        if (deltaPos.y > 0)
+                            Player.instance.Jump();
+                    }
                 }
+                
             }
 
         }

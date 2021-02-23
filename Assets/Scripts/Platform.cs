@@ -11,7 +11,7 @@ public class Platform : MonoBehaviour
     {
         if (spawnPoints.Length != 0)
         {
-            if (Random.Range(0, 10) > 3)
+            if (Random.Range(0, 10) > 4)
             {
                 Vector3 pos1 = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
                 GameObject obstacle1 = Instantiate(obstacles[Random.Range(0, obstacles.Length)], pos1, Quaternion.identity);

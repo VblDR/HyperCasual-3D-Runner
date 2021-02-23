@@ -28,12 +28,6 @@ public class RoadGenerator : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && speed == 0)
-        {
-            speed = maxSpeed;
-            Player.instance.StartMoving();
-        }
-
 
         if (speed == 0) return;    
 
