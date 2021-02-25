@@ -5,10 +5,12 @@ using UnityEngine;
 public class Lobe : MonoBehaviour
 {
     public float rotateSpeed;
+    public bool rotateable;
 
     private void Update()
     {
-        transform.Rotate(rotateSpeed, 0, 0);
+        if(rotateable)
+            transform.Rotate(rotateSpeed, 0, 0);
     }
 
     private void OnTriggerEnter(Collider other)
