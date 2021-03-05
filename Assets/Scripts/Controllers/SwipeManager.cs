@@ -8,6 +8,8 @@ public class SwipeManager : MonoBehaviour
 
     private Vector2 startPos, deltaPos;
     private bool moving;
+    private bool finish = false;
+
 
     const float swipeTreshold = 0.1f;
 
@@ -27,78 +29,98 @@ public class SwipeManager : MonoBehaviour
 
     private void PCInput()
     {
-        /*
-        if (Input.GetMouseButtonDown(0))
+        if (!finish)
         {
-            startPos = Input.mousePosition;
-            moving = true;
-        }
-        else if(Input.GetMouseButtonUp(0) && moving)
-        {
-            moving = false;
-        }
-
-        deltaPos = Vector2.zero;
-        if(moving && Input.GetMouseButton(0))
-        {
-            deltaPos = (Vector2)Input.mousePosition - startPos;
-        }
-
-
-        if(deltaPos.magnitude > swipeTreshold)
-        {
-            if (deltaPos.x > 0)
+            if (Input.GetKeyDown(KeyCode.D))
                 Player.instance.Move(Direction.Right);
-            else
+            if (Input.GetKeyDown(KeyCode.A))
                 Player.instance.Move(Direction.Left);
-           
-            startPos = Input.mousePosition;
+            if (Input.GetKeyDown(KeyCode.W))
+                Player.instance.Jump();
         }
-        */
-
-        if (Input.GetKeyDown(KeyCode.D))
-            Player.instance.Move(Direction.Right);
-        if (Input.GetKeyDown(KeyCode.A))
-            Player.instance.Move(Direction.Left);
-        if (Input.GetKeyDown(KeyCode.W))
-            Player.instance.Jump();
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.D))
+                Player.instance.SetRightPose();
+            if (Input.GetKeyDown(KeyCode.A))
+                Player.instance.SetLeftPose();
+        }
     }
 
     private void AndroidInput()
     {
-        if(Input.touchCount > 0)
+        if (!finish)
         {
-            if (Input.GetTouch(0).phase == TouchPhase.Began)
+            if (Input.touchCount > 0)
             {
-                startPos = Input.GetTouch(0).position;
-            }
-            else if (Input.GetTouch(0).phase == TouchPhase.Stationary)
-            {
-                startPos = Input.GetTouch(0).position;
-            }
-            else if(Input.GetTouch(0).phase == TouchPhase.Ended)
-            {
-                deltaPos = Input.GetTouch(0).position - startPos;
-
-                if(deltaPos.magnitude > swipeTreshold)
+                if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
-                    if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
-                    {
-                        if (deltaPos.x > 0)
-                            Player.instance.Move(Direction.Right);
-                        else
-                            Player.instance.Move(Direction.Left);
-                    }
-                    else
-                    {
-                        if (deltaPos.y > 0)
-                            Player.instance.Jump();
-                    }
+                    startPos = Input.GetTouch(0).position;
                 }
-                
-            }
+                else if (Input.GetTouch(0).phase == TouchPhase.Stationary)
+                {
+                    startPos = Input.GetTouch(0).position;
+                }
+                else if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                {
+                    deltaPos = Input.GetTouch(0).position - startPos;
 
+                    if (deltaPos.magnitude > swipeTreshold)
+                    {
+                        if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
+                        {
+                            if (deltaPos.x > 0)
+                                Player.instance.Move(Direction.Right);
+                            else
+                                Player.instance.Move(Direction.Left);
+                        }
+                        else
+                        {
+                            if (deltaPos.y > 0)
+                                Player.instance.Jump();
+                        }
+                    }
+
+                }
+
+            }
         }
+        else
+        {
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).phase == TouchPhase.Began)
+                {
+                    startPos = Input.GetTouch(0).position;
+                }
+                else if (Input.GetTouch(0).phase == TouchPhase.Stationary)
+                {
+                    startPos = Input.GetTouch(0).position;
+                }
+                else if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                {
+                    deltaPos = Input.GetTouch(0).position - startPos;
+
+                    if (deltaPos.magnitude > swipeTreshold)
+                    {
+                        if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
+                        {
+                            if (deltaPos.x > 0)
+                                Player.instance.SetRightPose();
+                            else
+                                Player.instance.SetLeftPose();
+                        }
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    public void SetFinish(bool value)
+    {
+        finish = value;
     }
 }
 

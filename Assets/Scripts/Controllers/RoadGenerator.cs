@@ -15,13 +15,14 @@ public class RoadGenerator : MonoBehaviour
     public float maxSpeed;
     private float speed = 0;
     
-    private float currentStep = 0;
+    private int currentStep = 0;
 
     private List<GameObject> roads = new List<GameObject>();
-    public float maxRoads;
+    public int maxRoads;
 
     private void Start()
     {
+        CheckPlayerPrefs();
         instance = this;
         GenerateRoad();
     }
@@ -55,7 +56,7 @@ public class RoadGenerator : MonoBehaviour
     private void CreateNextRoad()
     {
         GameObject platform;
-        Vector3 pos = new Vector3(0, -0.25f, 0);
+        Vector3 pos = new Vector3(0, -0.25f, -3);
         if (roads.Count > 0)
             pos = roads[roads.Count - 1].transform.position + new Vector3(0, 0, 3f);
 
@@ -78,7 +79,7 @@ public class RoadGenerator : MonoBehaviour
         else
             platform = Instantiate(smoothPlatformPrefab, pos, Quaternion.identity);
 
-        if (currentStep > 5)
+        if (currentStep > 6)
             platform.GetComponent<Platform>().enabled = true;
 
         platform.transform.SetParent(transform);
@@ -93,5 +94,11 @@ public class RoadGenerator : MonoBehaviour
     public void StartRoad()
     {
         speed = maxSpeed;
+    }
+
+    private void CheckPlayerPrefs()
+    {
+        PlayerPrefs.SetInt("EndlessLevel", 1);
+        PlayerPrefs.SetInt("MoneyToSpawn", 2000);
     }
 }

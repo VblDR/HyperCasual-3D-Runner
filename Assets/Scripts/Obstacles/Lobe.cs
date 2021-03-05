@@ -11,6 +11,11 @@ public class Lobe : MonoBehaviour
     {
         if(rotateable)
             transform.Rotate(rotateSpeed, 0, 0);
+        if (transform.position.z < -2.2f)
+        {
+            //transform.localPosition -= new Vector3(0, 2 * Time.deltaTime, 0);
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -18,6 +23,7 @@ public class Lobe : MonoBehaviour
         if(other.GetComponent<IDamageable>() != null)
         {
             other.GetComponent<IDamageable>().AcceptDamage();
+            gameObject.SetActive(false);
         }
     }
 

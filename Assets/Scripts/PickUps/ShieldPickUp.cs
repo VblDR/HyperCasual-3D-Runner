@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShieldPickUp : MonoBehaviour
+public class ShieldPickUp : PickUp
 {
-    private void OnTriggerEnter(Collider other)
+    protected override void DoAction(Collider other)
     {
-        if (other.CompareTag("Player"))
-            other.GetComponent<Player>().ActivateShield();
+        other.GetComponent<Player>().ActivateShield();
     }
 }
