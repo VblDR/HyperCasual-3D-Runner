@@ -7,7 +7,7 @@ public class MovingObstacle : Obstacle
     public float speed;
     private bool moving = false;
     public float rotateSpeed;
-    public MeshRenderer meshToOff;
+    //public MeshRenderer meshToOff;
 
     private void Update()
     {
@@ -21,12 +21,16 @@ public class MovingObstacle : Obstacle
 
     protected override void DestroyMyself()
     {
+        /*
         meshToOff.enabled = false;
         foreach (Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>())
         {
             rb.isKinematic = false;
         }
         Destroy(gameObject, 1);
+        */
+
+       base.DestroyMyself();
     }
 
     private IEnumerator Moving(Direction dir)

@@ -28,11 +28,15 @@ public class Obstacle : MonoBehaviour
 
     protected virtual void DestroyMyself()
     {
+        /*
         GetComponentInChildren<MeshRenderer>().enabled = false;
         foreach(Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>())
         {
             rb.isKinematic = false;
         }
         Destroy(gameObject, 1);
+        */
+
+        Destroy(gameObject);
     }
 }

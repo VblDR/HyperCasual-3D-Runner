@@ -47,7 +47,7 @@ PlayerSettings:
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_StereoRenderingPath: 0
-  m_ActiveColorSpace: 0
+  m_ActiveColorSpace: 1
   m_MTRendering: 1
   mipStripping: 0
   numberOfMipsStripped: 0
@@ -238,7 +238,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: D:/Repositories/keystore.keystore
+  AndroidKeystoreName: D:/Repositories/AstroRunner/Build/keystore.keystore
   AndroidKeyaliasName: vbldr_keystore
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0

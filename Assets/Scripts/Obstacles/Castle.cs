@@ -8,7 +8,7 @@ public class Castle : MonoBehaviour
     public float speed;
     private bool moving = false;
 
-    public MeshRenderer[] toDestroy;
+    //public MeshRenderer[] toDestroy;
 
     private void Update()
     {
@@ -20,6 +20,7 @@ public class Castle : MonoBehaviour
 
     public void DestroyCastle()
     {
+        /*
         foreach(var c in toDestroy)
         {
             c.enabled = false;
@@ -29,6 +30,9 @@ public class Castle : MonoBehaviour
             rb.isKinematic = false;
         }
         Destroy(gameObject, 1);
+        */
+
+        Destroy(gameObject);
     }
 
     public void MoveCastle()
