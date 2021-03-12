@@ -28,15 +28,16 @@ public class Obstacle : MonoBehaviour
 
     protected virtual void DestroyMyself()
     {
-        /*
+        
         GetComponentInChildren<MeshRenderer>().enabled = false;
         foreach(Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>())
         {
             rb.isKinematic = false;
+            rb.AddForce(new Vector3(Random.Range(-6f, 6f), Random.Range(-6f, 6f), Random.Range(-6f, 6f)), ForceMode.Impulse);
         }
-        Destroy(gameObject, 1);
-        */
+        Destroy(gameObject, 2);
+        
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }

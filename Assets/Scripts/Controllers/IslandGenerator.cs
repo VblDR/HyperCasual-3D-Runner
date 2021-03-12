@@ -6,7 +6,7 @@ public class IslandGenerator : MonoBehaviour
 {
     public static IslandGenerator instance;
 
-    public GameObject island;
+    public GameObject[] islands;
     public float maxSpeed = 5;
     public int maxIslands = 3;
     public Vector3 startPos;
@@ -15,16 +15,26 @@ public class IslandGenerator : MonoBehaviour
     private bool isRight;
     private float speed;
     private List<GameObject> spawned = new List<GameObject>();
-    
+
+    private float timeToSecret = 300;
+    private bool secretSpawned = false;
+    private bool isEndless = false;
 
     private void Start()
     {
+        if (PlayerPrefs.GetInt("EndlessLevel") == 1) isEndless = true;
         instance = this;
         GenerateIslands();
     }
 
     private void Update()
     {
+        if (isEndless && timeToSecret > 0)
+            timeToSecret -= Time.deltaTime;
+
+        if (timeToSecret > 0)
+            timeToSecret -= Time.deltaTime;
+
         if (speed == 0) return;
 
         foreach (GameObject island in spawned)
@@ -58,8 +68,16 @@ public class IslandGenerator : MonoBehaviour
         pos.x += isRight ? 11 : -11;
         isRight = !isRight;
 
-        GameObject curIsland = Instantiate(island, pos, euler);
+        GameObject curIsland = Instantiate(islands[Random.Range(0, islands.Length)], pos, euler);
         curIsland.transform.SetParent(transform);
+        if(timeToSecret < 0 && !secretSpawned)
+        {
+            if (curIsland.GetComponent<Island>() != null)
+            {
+                secretSpawned = true;
+                curIsland.GetComponent<Island>().SpawnBanner(!isRight);
+            }
+        }
         spawned.Add(curIsland);
     }
 

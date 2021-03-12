@@ -7,8 +7,9 @@ public class Castle : MonoBehaviour
 
     public float speed;
     private bool moving = false;
-
-    //public MeshRenderer[] toDestroy;
+    private bool active = true;
+    public MeshRenderer[] toDestroy;
+    public GameObject toUnable;
 
     private void Update()
     {
@@ -20,19 +21,19 @@ public class Castle : MonoBehaviour
 
     public void DestroyCastle()
     {
-        /*
-        foreach(var c in toDestroy)
+        toUnable.SetActive(false);
+        GameController.instance.DestroyCastle();
+        Debug.Log("Destroyed");
+        foreach (var c in toDestroy)
         {
             c.enabled = false;
         }
         foreach (Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>())
         {
             rb.isKinematic = false;
+            rb.AddForce(new Vector3(Random.Range(-6f, 6f), Random.Range(-6f, 6f), Random.Range(-6f, 6f)), ForceMode.Impulse);
         }
-        Destroy(gameObject, 1);
-        */
-
-        Destroy(gameObject);
+        Destroy(gameObject, 2);
     }
 
     public void MoveCastle()
@@ -47,8 +48,9 @@ public class Castle : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.CompareTag("Player") || collision.CompareTag("Shield"))
+        if ((collision.CompareTag("Player") || collision.CompareTag("Shield")) && active)
         {
+            active = false;
             if (collision.CompareTag("Shield")) Shield.instance.AcceptDamage();
             if (collision.CompareTag("Player")) Player.instance.AcceptDamage();
 

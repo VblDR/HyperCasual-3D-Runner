@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Island : MonoBehaviour
 {
+    public GameObject banner, banner2;
+
     public List<GameObject> palms;
     public int minNumer = 7;
     public int maxNumber = 11;
@@ -23,7 +25,6 @@ public class Island : MonoBehaviour
     private void Start()
     {
         curTime = timeBetweenFish;
-        EnableFish();
 
         //palms
         foreach (var c in spawnHolder.GetComponentsInChildren<Transform>())
@@ -44,7 +45,7 @@ public class Island : MonoBehaviour
             GameObject palm = Instantiate(palms[Random.Range(0, palms.Count)], pos, euler);
             palm.transform.SetParent(transform);
         }
-
+        EnableFish();
     }
 
     private void Update()
@@ -59,6 +60,14 @@ public class Island : MonoBehaviour
             curTime = timeBetweenFish;
         }
         */
+    }
+
+    public void SpawnBanner(bool isRight)
+    {
+        if(isRight)
+            banner2.SetActive(true);
+        else   
+            banner.SetActive(true);
     }
 
     private void EnableFish()

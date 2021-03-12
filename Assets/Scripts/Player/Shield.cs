@@ -8,6 +8,7 @@ public class Shield : MonoBehaviour, IDamageable
     public static Shield instance;
 
     public float rotateSpeed = 2;
+    private bool vibrating = false;
 
 
     private void Start()
@@ -22,6 +23,9 @@ public class Shield : MonoBehaviour, IDamageable
 
     public void AcceptDamage()
     {
+        if (PlayerPrefs.GetInt("Vibro") == 1) vibrating = true;
+
+        if (vibrating) Handheld.Vibrate();
         gameObject.SetActive(false);
     }
 }

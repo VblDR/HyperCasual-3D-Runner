@@ -18,7 +18,6 @@ public class LevelGenerator : MonoBehaviour
 
     [Space(10)]
     public float maxSpeed;
-    public float maxSpeedOnFinish;
     private float speed = 0;
 
     private List<GameObject> roads = new List<GameObject>();
@@ -28,6 +27,7 @@ public class LevelGenerator : MonoBehaviour
     {
         instance = this;
         CheckPlayerPrefs();
+
     }
 
     private void Start()
@@ -95,7 +95,7 @@ public class LevelGenerator : MonoBehaviour
     {
         GameObject platform;
 
-        if (step % 3 == 0 && step > 6)
+        if (step % 3 == 0 && step > 8)
         {
             if (Random.Range(0, 10) < 4)
                 platform = Instantiate(platformsHolesPrefabs[Random.Range(0, platformsHolesPrefabs.Count)], pos, Quaternion.identity);
@@ -150,6 +150,7 @@ public class LevelGenerator : MonoBehaviour
          else
             PlayerPrefs.SetInt("LevelWithoutHeart", PlayerPrefs.GetInt("LevelWithoutHeart") + 1);
 
+        maxSpeed = PlayerPrefs.GetFloat("Speed");
         PlayerPrefs.SetInt("MoneyToSpawn", 15 + PlayerPrefs.GetInt("Level") - 1);
         PlayerPrefs.SetInt("MustShieldSpawn", 1);
     }

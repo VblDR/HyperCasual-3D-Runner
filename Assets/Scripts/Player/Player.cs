@@ -32,12 +32,15 @@ public class Player : MonoBehaviour, IDamageable
     public float immortalTime;
     private bool immortality = false;
 
+    private bool vibrating = false;
+
     private void Awake()
     {
         CheckPlayerPrefs();
         anim = GetComponent<Animator>();
         instance = this;
         pos = transform.position;
+        collider.size = new Vector3(0.31f, 1f, 0.25f);
     }
 
     public void Move(Direction dir)
@@ -53,6 +56,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (!immortality)
         {
+            if(vibrating) Handheld.Vibrate();
             SetImmortality();
             health -= 1;
             if (health <= 0)
@@ -146,16 +150,16 @@ public class Player : MonoBehaviour, IDamageable
     {
         anim.SetBool("SetLeftPose", true);
         leftPose.SetActive(true);
-        collider.size = new Vector3(0.4f, 1.26f, 0.3f);
-        collider.center = new Vector3(0, 0.6f, 0);
+        collider.size = new Vector3(0.31f, 0.62f, 0.25f);
+        collider.center = new Vector3(0, 0.31f, 0);
     }
 
     public void SetRightPose()
     {
         anim.SetBool("SetRightPose", true);
         rightPose.SetActive(true);
-        collider.size = new Vector3(0.4f, 1.26f, 0.3f);
-        collider.center = new Vector3(0, 0.6f, 0);
+        collider.size = new Vector3(0.31f, 0.62f, 0.25f);
+        collider.center = new Vector3(0, 0.31f, 0);
     }
 
     public void SetEndPose()
@@ -164,8 +168,8 @@ public class Player : MonoBehaviour, IDamageable
         anim.SetBool("SetLeftPose", false);
         anim.SetBool("EndPose", true);
 
-        collider.size = new Vector3(0.4f, 1.86f, 0.3f);
-        collider.center = new Vector3(0, 0.93f, 0);
+        collider.size = new Vector3(0.31f, 1f, 0.25f);
+        collider.center = new Vector3(0, 0.54f, 0);
 
         if (leftPose.activeSelf) leftPose.SetActive(false);
         if (rightPose.activeSelf) rightPose.SetActive(false);
@@ -175,17 +179,25 @@ public class Player : MonoBehaviour, IDamageable
         }));
     }
 
+    public void SetVictory()
+    {
+        anim.SetBool("Victory", true);
+    }
+    
+
     public void Jump()
     {
         anim.SetBool("Jump", true);
-        collider.center += new Vector3(0, 1, 0);
+        collider.center += new Vector3(0, 0.5f, 0);
+        collider.size = new Vector3(0.31f, 1f, 0.25f);
         StartCoroutine(CoroutineHelper.WaitFor(0.5f, delegate ()
         {
             anim.SetBool("Jump", false);
         }));
         StartCoroutine(CoroutineHelper.WaitFor(1, delegate ()
         {
-            collider.center -= new Vector3(0, 1, 0);
+            collider.center -= new Vector3(0, 0.5f, 0);
+            collider.size = new Vector3(0.31f, 1f, 0.25f);
         }));
     }
 
@@ -195,14 +207,14 @@ public class Player : MonoBehaviour, IDamageable
         StopMove();
     }
 
-    //other setting
-    private void OnTriggerEnter(Collider other)
+    public void Fall()
     {
-        if (other.CompareTag("Hole"))
+        if (!immortality)
         {
             health = 0;
+            SwipeManager.instance.enabled = false;
             PlayerPrefs.SetInt("Hearts", 0);
-            foreach(var c in healthCount)
+            foreach (var c in healthCount)
             {
                 c.sprite = healthOff;
             }
@@ -210,31 +222,56 @@ public class Player : MonoBehaviour, IDamageable
             StartCoroutine(Falling());
             Death();
         }
-        if (other.CompareTag("Bridge"))
+    }
+
+    //other setting
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("BridgeHole"))
         {
-            StopMove();
-            StartCoroutine(CoroutineHelper.WaitFor(0.58f, delegate () 
+            GameController.instance.bridgeHole = true;
+            health = 0;
+            SwipeManager.instance.enabled = false;
+            PlayerPrefs.SetInt("Hearts", 0);
+            foreach (var c in healthCount)
+            {
+                c.sprite = healthOff;
+            }
+
+            StartCoroutine(Falling());
+            Death();
+        }
+        else if (other.CompareTag("Bridge"))
+        {
+            SwipeManager.instance.SetFinish(true);
+            transform.position = Vector3.forward;
+            StartCoroutine(CoroutineHelper.WaitFor(0.5f, delegate ()
+            {
+                StopMove();
+                transform.position = Vector3.forward;
+            }));
+            StartCoroutine(CoroutineHelper.WaitFor(1.05f, delegate () 
             {
                 Camera.instance.SetFinish();
                 LevelGenerator.instance.StopRoad();
                 IslandGenerator.instance.StopIslands();
                 GameController.instance.ActivateCastles();
-                SwipeManager.instance.SetFinish(true);
             }));
         }
-
-        if (other.CompareTag("Finish"))
+        else if (other.CompareTag("Finish"))
+        {
+            GameController.instance.DestroyCastle();
+            SetEndPose();
+        }  
+        else if (other.CompareTag("Castle"))
         {
             SetEndPose();
-            StartCoroutine(CoroutineHelper.WaitFor(0.1f, delegate (){
-                GameController.instance.DestroyCastle();
-            }));
-        }                   
+        }
     }
 
     private IEnumerator Falling()
     {
-        while(transform.position.y > -3)
+        while(transform.position.y > -2)
         {
             transform.position += new Vector3(0, -speed, 0) * Time.deltaTime;
             yield return null;
@@ -252,6 +289,8 @@ public class Player : MonoBehaviour, IDamageable
 
     private void CheckPlayerPrefs()
     {
+        if (PlayerPrefs.GetInt("Vibro") == 1) vibrating = true;
+
         health = PlayerPrefs.GetInt("Hearts");
         for(int i = 0; i < health; i++)
         {
@@ -262,8 +301,6 @@ public class Player : MonoBehaviour, IDamageable
             health = 1;
             healthCount[0].sprite = healthOn;
         }
-
-
     }
 }
 

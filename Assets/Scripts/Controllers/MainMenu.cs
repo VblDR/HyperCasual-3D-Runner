@@ -7,13 +7,13 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public Text currentLevel;
-    public GameObject darkPanel, settingsPanel;
+    public Animator settingsPanel;
     public Text moneyText;
+    private bool settingsOpened = false;
 
-
-    private int soundState, vibroState;
+    private int vibroState;
     public Sprite turnOn, turnOff;
-    public Image sound, vibro;
+    public Image vibro;
 
     private int level;
 
@@ -36,10 +36,24 @@ public class MainMenu : MonoBehaviour
 
     public void SwitchSettings()
     {
-        darkPanel.SetActive(!darkPanel.activeSelf);
-        settingsPanel.SetActive(!settingsPanel.activeSelf);
+        if (settingsOpened)
+        {
+            settingsPanel.SetBool("Close", true);
+            StartCoroutine(CoroutineHelper.WaitFor(0.8f, delegate ()
+            {
+                settingsPanel.SetBool("Close", false);
+                settingsPanel.enabled = false;
+            }));
+            settingsOpened = false;
+        }
+        else
+        {
+            settingsPanel.enabled = true;
+            settingsOpened = true;
+        }
     }
 
+    /*
     public void SwitchSound()
     {
         if(soundState == 0)
@@ -54,6 +68,7 @@ public class MainMenu : MonoBehaviour
         }
         PlayerPrefs.SetInt("Sound", soundState);
     }
+    */
 
     public void SwitchVibro()
     {
@@ -67,12 +82,7 @@ public class MainMenu : MonoBehaviour
             vibroState = 0;
             vibro.sprite = turnOff;
         }
-        PlayerPrefs.SetInt("Vibro", soundState);
-    }
-
-    public void OpenStore()
-    {
-        Debug.Log("Open store button");
+        PlayerPrefs.SetInt("Vibro", vibroState);
     }
 
     private void CheckPlayerPrefs()
@@ -82,16 +92,18 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.SetInt("Level", 1);
             PlayerPrefs.SetInt("LevelWithoutHeart", 0);
             PlayerPrefs.SetInt("Money", 0);
-            PlayerPrefs.SetInt("Sound", 1);
             PlayerPrefs.SetInt("Vibro", 1);
             PlayerPrefs.SetInt("Hearts", 3);
+
+        }
+        if(PlayerPrefs.GetInt("Speed") == 0)
+        {
+            PlayerPrefs.SetFloat("Speed", 5);
+            PlayerPrefs.SetFloat("SpeedPercent", 0);
         }
 
-        soundState = PlayerPrefs.GetInt("Sound");
-        if(soundState == 0)
-        {
-            sound.sprite = turnOff;
-        }
+        if (PlayerPrefs.GetInt("EndlessLevel") == 1) PlayerPrefs.SetInt("EndlessLevel", 0);
+
         
         vibroState = PlayerPrefs.GetInt("Vibro");
         if(vibroState == 0)

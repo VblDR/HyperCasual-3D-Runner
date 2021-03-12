@@ -7,30 +7,31 @@ public class MovingObstacle : Obstacle
     public float speed;
     private bool moving = false;
     public float rotateSpeed;
-    //public MeshRenderer meshToOff;
+    public MeshRenderer meshToOff;
+    private bool destroyed = false;
 
     private void Update()
     {
-        if (transform.localPosition.x == 1 && !moving)
-            StartCoroutine(Moving(Direction.Left));
-        else if (transform.localPosition.x == -1 && !moving)
-            StartCoroutine(Moving(Direction.Right));
+        if (!destroyed)
+        {
+            if (transform.localPosition.x == 1 && !moving)
+                StartCoroutine(Moving(Direction.Left));
+            else if (transform.localPosition.x == -1 && !moving)
+                StartCoroutine(Moving(Direction.Right));
 
-        transform.Rotate(0, rotateSpeed, 0);
+            transform.Rotate(0, rotateSpeed, 0);
+        }
     }
 
     protected override void DestroyMyself()
     {
-        /*
+        destroyed = true;
         meshToOff.enabled = false;
         foreach (Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>())
         {
             rb.isKinematic = false;
         }
-        Destroy(gameObject, 1);
-        */
-
-       base.DestroyMyself();
+        Destroy(gameObject, 2);
     }
 
     private IEnumerator Moving(Direction dir)

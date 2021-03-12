@@ -13,8 +13,10 @@ public class RoadGenerator : MonoBehaviour
 
     [Space(10)]
     public float maxSpeed;
-    private float speed = 0;
-    
+    private float speed;
+    private float currentSpeed = 0;
+    private float percent;
+
     private int currentStep = 0;
 
     private List<GameObject> roads = new List<GameObject>();
@@ -22,6 +24,7 @@ public class RoadGenerator : MonoBehaviour
 
     private void Start()
     {
+        speed = maxSpeed;
         CheckPlayerPrefs();
         instance = this;
         GenerateRoad();
@@ -29,12 +32,11 @@ public class RoadGenerator : MonoBehaviour
 
     void Update()
     {
-
-        if (speed == 0) return;    
+        if (currentSpeed == 0) return;    
 
         foreach(GameObject road in roads)
         {
-            road.transform.position -= new Vector3(0, 0, speed * Time.deltaTime);
+            road.transform.position -= new Vector3(0, 0, currentSpeed * Time.deltaTime);
         }
 
         if(roads[0].transform.position.z < -5)
@@ -62,7 +64,7 @@ public class RoadGenerator : MonoBehaviour
 
         currentStep++;
 
-        if(currentStep % 3 == 0)
+        if(currentStep % 3 == 0 && currentStep > 8)
         {
             if(Random.Range(0, 10) < 6)
                 platform = Instantiate(platformsHolesPrefabs[Random.Range(0, platformsHolesPrefabs.Count)], pos, Quaternion.identity);
@@ -82,18 +84,27 @@ public class RoadGenerator : MonoBehaviour
         if (currentStep > 6)
             platform.GetComponent<Platform>().enabled = true;
 
+        if (currentStep % 50 == 0)
+        {
+            if (!Mathf.Approximately(percent, 0.10f))
+            {
+                percent += 0.005f;
+                speed = maxSpeed * (1 + percent);
+                currentSpeed = speed;
+            }
+        }
         platform.transform.SetParent(transform);
         roads.Add(platform);
     }
 
     public void StopRoad()
     {
-        speed = 0;
+        currentSpeed = 0;
     }
 
     public void StartRoad()
     {
-        speed = maxSpeed;
+        currentSpeed = speed;
     }
 
     private void CheckPlayerPrefs()

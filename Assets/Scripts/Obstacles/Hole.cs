@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Hole : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private bool active = true;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player") && active)
+        {
+            Player.instance.Fall();
+            active = false;
+        }
     }
 }
