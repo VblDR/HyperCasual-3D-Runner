@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject restartButton;
 
     public static GameController instance;
 
