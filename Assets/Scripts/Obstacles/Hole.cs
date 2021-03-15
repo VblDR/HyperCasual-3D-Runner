@@ -10,7 +10,10 @@ public class Hole : MonoBehaviour
     {
         if (other.CompareTag("Player") && active)
         {
-            Player.instance.Fall();
+            if (Player.instance != null)
+                Player.instance.Fall();
+            else
+                PlayerTutorial.instance.Fall();
             active = false;
         }
     }

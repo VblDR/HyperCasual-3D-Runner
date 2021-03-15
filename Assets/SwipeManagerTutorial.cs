@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwipeManager : MonoBehaviour
+public class SwipeManagerTutorial : MonoBehaviour
 {
-    public static SwipeManager instance;
+    public static SwipeManagerTutorial instance;
 
     private Vector2 startPos, deltaPos;
     private bool moving;
@@ -32,18 +32,18 @@ public class SwipeManager : MonoBehaviour
         if (!finish)
         {
             if (Input.GetKeyDown(KeyCode.D))
-                Player.instance.Move(Direction.Right);
+                PlayerTutorial.instance.Move(Direction.Right);
             if (Input.GetKeyDown(KeyCode.A))
-                Player.instance.Move(Direction.Left);
+                PlayerTutorial.instance.Move(Direction.Left);
             if (Input.GetKeyDown(KeyCode.W))
-                Player.instance.Jump();
+                PlayerTutorial.instance.Jump();
         }
         else
         {
             if (Input.GetKeyDown(KeyCode.D))
-                Player.instance.SetRightPose();
+                PlayerTutorial.instance.SetRightPose();
             if (Input.GetKeyDown(KeyCode.A))
-                Player.instance.SetLeftPose();
+                PlayerTutorial.instance.SetLeftPose();
         }
     }
 
@@ -70,14 +70,14 @@ public class SwipeManager : MonoBehaviour
                         if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
                         {
                             if (deltaPos.x > 0)
-                                Player.instance.Move(Direction.Right);
+                                PlayerTutorial.instance.Move(Direction.Right);
                             else
-                                Player.instance.Move(Direction.Left);
+                                PlayerTutorial.instance.Move(Direction.Left);
                         }
                         else
                         {
                             if (deltaPos.y > 0)
-                                Player.instance.Jump();
+                                PlayerTutorial.instance.Jump();
                         }
                     }
 
@@ -106,9 +106,9 @@ public class SwipeManager : MonoBehaviour
                         if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
                         {
                             if (deltaPos.x > 0)
-                                Player.instance.SetRightPose();
+                                PlayerTutorial.instance.SetRightPose();
                             else
-                                Player.instance.SetLeftPose();
+                                PlayerTutorial.instance.SetLeftPose();
                         }
                     }
 
@@ -122,10 +122,4 @@ public class SwipeManager : MonoBehaviour
     {
         finish = value;
     }
-}
-
-public enum Direction
-{
-    Left,
-    Right,
 }

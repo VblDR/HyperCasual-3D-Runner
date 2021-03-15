@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-
 public class GameController : MonoBehaviour
 {
+    public GameObject movementInfo;
+    private bool tutorial = false;
 
     public static GameController instance;
 
@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
 
     //UI
     public GameObject lostPanel, finishPanel;
-    public GameObject darkPanel;
+    public GameObject blur;
     public Text moneyDisplay;
 
     //finish
@@ -34,10 +34,30 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(CoroutineHelper.WaitFor(1f, delegate ()
+        if (tutorial)
         {
-            StartGame();
-        }));
+            blur.SetActive(true);
+            movementInfo.SetActive(true);
+
+            StartCoroutine(CoroutineHelper.WaitFor(1.8f, delegate ()
+            {
+                blur.SetActive(false);
+                movementInfo.SetActive(false);
+            }));
+
+            StartCoroutine(CoroutineHelper.WaitFor(2.6f, delegate ()
+            {
+
+                StartGame();
+            }));
+
+        }
+        else
+            StartCoroutine(CoroutineHelper.WaitFor(1.2f, delegate ()
+            {
+
+                StartGame();
+            }));
     }
 
     public void StartGame()
@@ -85,7 +105,7 @@ public class GameController : MonoBehaviour
                 c.StopCastle();
             }
 
-        darkPanel.SetActive(true);
+        blur.SetActive(true);
         lostPanel.SetActive(true);
 
     }
@@ -98,9 +118,12 @@ public class GameController : MonoBehaviour
         {
             c.SetActive(true);
         }
-        darkPanel.SetActive(true);
-        finishPanel.SetActive(true);
-        moneyDisplay.text = "+" + Player.instance.money;
+        StartCoroutine(CoroutineHelper.WaitFor(1.6f, delegate ()
+        {
+            blur.SetActive(true);
+            finishPanel.SetActive(true);
+            moneyDisplay.text = "+" + Player.instance.money;
+        }));
         PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
         if (PlayerPrefs.GetInt("Level") % 10 == 0)
         {
@@ -112,6 +135,11 @@ public class GameController : MonoBehaviour
                 PlayerPrefs.SetFloat("SpeedPercent", percent);
                 PlayerPrefs.SetFloat("Speed", speed);
             } 
+        }
+
+        if (PlayerPrefs.GetFloat("ObstacleProbability") < 0.4f)
+        {
+            PlayerPrefs.SetFloat("ObstacleProbability", PlayerPrefs.GetFloat("ObstacleProbability") + 0.008f);
         }
     }
 
@@ -138,7 +166,8 @@ public class GameController : MonoBehaviour
     {
 
         lostPanel.SetActive(false);
-        darkPanel.SetActive(false);
+        blur.SetActive(false);
+        Player.instance.StopFallingCoroutine();
         if (!castleStage)
         {
             if (!bridgeHole)
@@ -172,7 +201,8 @@ public class GameController : MonoBehaviour
                 Player.instance.IncreaseHP();
                 Player.instance.transform.position = new Vector3(0, 0, 1);
                 StartGame();
-                SwipeManager.instance.enabled = false;
+                SwipeManager.instance.enabled = true;
+                SwipeManager.instance.SetFinish(true);
             }
         }
         else
@@ -184,7 +214,7 @@ public class GameController : MonoBehaviour
                     c.SetActive(true);
                 }
                 Player.instance.IncreaseHP();
-                darkPanel.SetActive(true);
+                blur.SetActive(true);
                 finishPanel.SetActive(true);
                 moneyDisplay.text = "+" + Player.instance.money;
                 PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
@@ -204,6 +234,11 @@ public class GameController : MonoBehaviour
         if (!PlayerPrefs.HasKey("Money"))
         {
             PlayerPrefs.SetInt("Money", 0);
+        }
+        if(PlayerPrefs.GetInt("Tutorial") == 1)
+        {
+            tutorial = true;
+            PlayerPrefs.SetInt("Tutorial", 0);
         }
     }
 }

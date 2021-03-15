@@ -6,6 +6,9 @@ public class ShieldPickUp : PickUp
 {
     protected override void DoAction(Collider other)
     {
-        other.GetComponent<Player>().ActivateShield();
+        if(Player.instance != null)
+            other.GetComponent<Player>().ActivateShield();
+        else
+            other.GetComponent<PlayerTutorial>().ActivateShield();
     }
 }

@@ -48,12 +48,11 @@ public class Castle : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if ((collision.CompareTag("Player") || collision.CompareTag("Shield")) && active)
+        if (collision.CompareTag("Player") && active)
         {
             active = false;
-            if (collision.CompareTag("Shield")) Shield.instance.AcceptDamage();
-            if (collision.CompareTag("Player")) Player.instance.AcceptDamage();
-
+            if (collision.GetComponentInParent<Player>().shield.activeSelf) Shield.instance.AcceptDamage();
+            else Player.instance.AcceptDamage();
             Player.instance.SetEndPose();
             DestroyCastle();
         }

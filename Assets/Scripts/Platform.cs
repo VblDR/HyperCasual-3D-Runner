@@ -9,11 +9,21 @@ public class Platform : MonoBehaviour
     public GameObject heart, shield, coin;
     public Transform[] coinSpawn, heartSpawn, shieldSpawn;
 
+    public Transform birds;
+
+
+    private float baseObstacleProbability = 0.4f;
+
     private void OnEnable()
     {
+        if(PlayerPrefs.HasKey("ObstacleProbability") && PlayerPrefs.GetInt("EndlessLevel") != 1)
+        {
+            baseObstacleProbability = PlayerPrefs.GetFloat("ObstacleProbability");
+        }
+
         if (spawnPoints.Length != 0)
         {
-            if (Random.Range(0, 10) > 5)
+            if (Random.Range(0f, 1f) < baseObstacleProbability)
             {
                 Vector3 pos1 = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
                 GameObject obstacle1 = Instantiate(obstacles[Random.Range(0, obstacles.Length)], pos1, Quaternion.identity);
@@ -62,6 +72,12 @@ public class Platform : MonoBehaviour
                     coinObj.transform.SetParent(transform);
                 }
             }
+        }
+
+        if(birds != null)
+        {
+            if (Random.Range(0, 1f) > 0.99f)
+                birds.GetChild(Random.Range(0, birds.childCount)).gameObject.SetActive(true);
         }
     }
 }

@@ -6,6 +6,8 @@ public class Island : MonoBehaviour
 {
     public GameObject banner, banner2;
 
+    public GameObject tortoises;
+
     public List<GameObject> palms;
     public int minNumer = 7;
     public int maxNumber = 11;
@@ -45,12 +47,25 @@ public class Island : MonoBehaviour
             GameObject palm = Instantiate(palms[Random.Range(0, palms.Count)], pos, euler);
             palm.transform.SetParent(transform);
         }
+
+        //tortoises
+        for(int i =0; i < tortoises.transform.childCount; i++)
+        {
+            if (Random.Range(0, 1f) > 0.2f)
+                tortoises.transform.GetChild(i).gameObject.SetActive(true);
+        }
+
+        foreach (Transform c in fishHolder.GetComponent<Transform>())
+        {
+            fish.Add(c.transform.gameObject);
+        }
+
         EnableFish();
     }
 
     private void Update()
     {
-        /*
+        
         if (curTime > 0)
             curTime -= Time.deltaTime;
         else
@@ -59,7 +74,7 @@ public class Island : MonoBehaviour
             EnableFish();
             curTime = timeBetweenFish;
         }
-        */
+        
     }
 
     public void SpawnBanner(bool isRight)
@@ -72,10 +87,6 @@ public class Island : MonoBehaviour
 
     private void EnableFish()
     {
-        foreach (Transform c in fishHolder.GetComponent<Transform>())
-        {
-            fish.Add(c.transform.gameObject);
-        }
 
         int rand = Random.Range(fishMinSpawn, fishMaxSpawn + 1);
         for (int i = 0; i < rand; i++)

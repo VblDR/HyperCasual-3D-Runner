@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+
+    private const int version = 6;
     public Text currentLevel;
     public Animator settingsPanel;
     public Text moneyText;
@@ -31,7 +33,10 @@ public class MainMenu : MonoBehaviour
 
     public void LoadLevel()
     {
-        SceneManager.LoadScene("Level");
+        if (PlayerPrefs.GetInt("TutorialCastles") == 1)
+            SceneManager.LoadScene("Level1");
+        else
+            SceneManager.LoadScene("Level");
     }
 
     public void SwitchSettings()
@@ -87,6 +92,11 @@ public class MainMenu : MonoBehaviour
 
     private void CheckPlayerPrefs()
     {
+        if (!PlayerPrefs.HasKey("Version") || PlayerPrefs.GetInt("Version") != version)
+            PlayerPrefs.DeleteAll();
+
+        PlayerPrefs.SetInt("Version", version);
+
         if (!PlayerPrefs.HasKey("Level"))
         {
             PlayerPrefs.SetInt("Level", 1);
@@ -94,16 +104,24 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.SetInt("Money", 0);
             PlayerPrefs.SetInt("Vibro", 1);
             PlayerPrefs.SetInt("Hearts", 3);
-
+            PlayerPrefs.SetInt("MoneyToSpawn", 15 + PlayerPrefs.GetInt("Level") - 1);
         }
         if(PlayerPrefs.GetInt("Speed") == 0)
         {
             PlayerPrefs.SetFloat("Speed", 5);
             PlayerPrefs.SetFloat("SpeedPercent", 0);
         }
+        if (!PlayerPrefs.HasKey("ObstacleProbability"))
+        {
+            PlayerPrefs.SetFloat("ObstacleProbability", 0.004f);
+        }
 
         if (PlayerPrefs.GetInt("EndlessLevel") == 1) PlayerPrefs.SetInt("EndlessLevel", 0);
-
+        if (!PlayerPrefs.HasKey("Tutorial"))
+        {
+            PlayerPrefs.SetInt("Tutorial", 1);
+            PlayerPrefs.SetInt("TutorialCastles", 1);
+        }
         
         vibroState = PlayerPrefs.GetInt("Vibro");
         if(vibroState == 0)

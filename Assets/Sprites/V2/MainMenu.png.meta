@@ -161,11 +161,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 678
-        width: 100
-        height: 34
+        y: 1364
+        width: 200
+        height: 68
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -181,12 +181,12 @@ TextureImporter:
       name: MainMenu_1
       rect:
         serializedVersion: 2
-        x: 110
-        y: 679
-        width: 36
-        height: 32
+        x: 220
+        y: 1366
+        width: 72
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -202,12 +202,12 @@ TextureImporter:
       name: MainMenu_2
       rect:
         serializedVersion: 2
-        x: 156
-        y: 679
-        width: 36
-        height: 32
+        x: 311
+        y: 1365
+        width: 74
+        height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -223,12 +223,12 @@ TextureImporter:
       name: MainMenu_4
       rect:
         serializedVersion: 2
-        x: 201
-        y: 680
-        width: 36
-        height: 29
+        x: 402
+        y: 1367
+        width: 73
+        height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -244,12 +244,12 @@ TextureImporter:
       name: MainMenu_6
       rect:
         serializedVersion: 2
-        x: 245
-        y: 680
-        width: 36
-        height: 29
+        x: 490
+        y: 1367
+        width: 73
+        height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -266,11 +266,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 628
-        width: 45
-        height: 46
+        y: 1264
+        width: 90
+        height: 92
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -287,11 +287,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 527
-        width: 45
-        height: 97
+        y: 1061
+        width: 93
+        height: 196
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -308,11 +308,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 373
-        width: 404
-        height: 150
+        y: 753
+        width: 811
+        height: 302
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -330,10 +330,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 375
-        height: 362
+        width: 751
+        height: 731
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -349,12 +349,12 @@ TextureImporter:
       name: MainMenu_11
       rect:
         serializedVersion: 2
-        x: 389
-        y: 1
-        width: 375
-        height: 361
+        x: 779
+        y: 0
+        width: 751
+        height: 724
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

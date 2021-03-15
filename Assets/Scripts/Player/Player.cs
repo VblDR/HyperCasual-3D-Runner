@@ -10,10 +10,13 @@ public class Player : MonoBehaviour, IDamageable
     [HideInInspector]
     public static Player instance;
 
+    public GameObject cameraInScene;
+
     public int health;
     public float speed;
 
     public GameObject shield;
+    public bool activeShield { get; private set; }
 
     public Image[] healthCount;
     public Sprite healthOn, healthOff;
@@ -33,6 +36,7 @@ public class Player : MonoBehaviour, IDamageable
     private bool immortality = false;
 
     private bool vibrating = false;
+    private Coroutine falling;
 
     private void Awake()
     {
@@ -45,8 +49,26 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Move(Direction dir)
     {
-        if(coroutine != null)
+        if (dir.Equals(Direction.Right))
         {
+            if (transform.position.x == 1 || pos.x == 1)
+                return;
+            else
+                pos.x += 1;
+        }
+        else
+        {
+            if (transform.position.x == -1 || pos.x == -1)
+                return;
+            else
+                pos.x -= 1;
+        }
+
+        if (coroutine != null)
+        {
+            
+            anim.SetBool("MoveLeft", false);
+            anim.SetBool("MoveRight", false);
             StopCoroutine(coroutine);
         }
         coroutine = StartCoroutine(Moving(dir));
@@ -71,22 +93,6 @@ public class Player : MonoBehaviour, IDamageable
 
     private IEnumerator Moving(Direction dir)
     {
-
-        if (dir.Equals(Direction.Right))
-        {
-            if (transform.position.x == 1 || pos.x == 1)
-                yield break;
-            else
-                pos.x += 1;  
-        }
-        else
-        {
-            if (transform.position.x == -1 || pos.x == -1)
-                yield break;
-            else
-                pos.x -= 1;
-        }
-
         if (dir.Equals(Direction.Right))
             anim.SetBool("MoveRight", true);
         else
@@ -112,8 +118,9 @@ public class Player : MonoBehaviour, IDamageable
     //pickups
     public void ActivateShield()
     {
-        if(!shield.activeSelf)
+        if (!shield.activeSelf)
             shield.SetActive(true);
+
     }
 
     public void IncreaseHP()
@@ -219,9 +226,15 @@ public class Player : MonoBehaviour, IDamageable
                 c.sprite = healthOff;
             }
 
-            StartCoroutine(Falling());
+            falling = StartCoroutine(Falling());
             Death();
         }
+    }
+
+    public void StopFallingCoroutine()
+    {
+        if (falling != null)
+            StopCoroutine(falling);
     }
 
     //other setting
@@ -252,7 +265,8 @@ public class Player : MonoBehaviour, IDamageable
             }));
             StartCoroutine(CoroutineHelper.WaitFor(1.05f, delegate () 
             {
-                Camera.instance.SetFinish();
+                transform.position = Vector3.forward;
+                cameraInScene.GetComponent<Camera>().SetFinish();
                 LevelGenerator.instance.StopRoad();
                 IslandGenerator.instance.StopIslands();
                 GameController.instance.ActivateCastles();

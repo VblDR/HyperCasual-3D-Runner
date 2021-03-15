@@ -8,10 +8,10 @@ public class Obstacle : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.z < -2.3f)
+        if (transform.position.z < -1.2f)
         {
-            //transform.localPosition -= new Vector3(0, 2 * Time.deltaTime, 0);
-            Destroy(gameObject);
+            transform.localPosition -= new Vector3(0, 2 * Time.deltaTime, 0);
+            //Destroy(gameObject);
         }
     }
 

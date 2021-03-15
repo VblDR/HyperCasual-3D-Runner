@@ -8,7 +8,10 @@ public class MoneyPickUp : PickUp
 
     protected override void DoAction(Collider other)
     {
-        other.GetComponent<Player>().IncreaseMoney(money);
+        if(Player.instance != null)
+            other.GetComponent<Player>().IncreaseMoney(money);
+        else
+            other.GetComponent<PlayerTutorial>().IncreaseMoney(money);
     }
 
 }

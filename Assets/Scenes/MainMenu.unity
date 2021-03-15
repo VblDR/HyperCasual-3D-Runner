@@ -366,8 +366,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 99, y: -52.95}
-  m_SizeDelta: {x: 80.4, y: 83.5}
+  m_AnchoredPosition: {x: 95.54, y: -52.95}
+  m_SizeDelta: {x: 87.32, y: 83.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &167108239
 MonoBehaviour:
@@ -448,7 +448,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 175.40002, y: 251.09998}
+  m_SizeDelta: {x: 175.4, y: 319.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &203732323
 MonoBehaviour:
@@ -729,9 +729,9 @@ RectTransform:
   m_Father: {fileID: 213573668}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -344, y: 609.06}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 56, y: -57.93994}
   m_SizeDelta: {x: 100, y: 96.953}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &343311664
@@ -818,7 +818,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &401926647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -963,7 +963,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453551465}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000051619}
+  m_LocalPosition: {x: 0, y: 0, z: -0.0002234}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1600006212}
@@ -972,7 +972,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -117, y: -53.129883}
+  m_AnchoredPosition: {x: -106.6, y: -56.33}
   m_SizeDelta: {x: 198.29999, y: 72.20001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &453551467
@@ -1449,7 +1449,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1012597984}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: LoadLevel
+        m_MethodName: LoadEndlessLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1734,7 +1734,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 56, y: -56.330017}
+  m_AnchoredPosition: {x: 56, y: -56.329956}
   m_SizeDelta: {x: 95.29999, y: 99.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &864243600
@@ -2205,8 +2205,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1008025860}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.0000012812}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 5}
+  m_LocalScale: {x: 1.2425175, y: 1.2425175, z: 1.2425175}
   m_Children:
   - {fileID: 167108238}
   - {fileID: 1811052413}
@@ -2217,7 +2217,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -52.80005}
+  m_AnchoredPosition: {x: -4, y: -64}
   m_SizeDelta: {x: 297, y: 105.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1008025862
@@ -2484,8 +2484,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -99.2, y: -51.999718}
-  m_SizeDelta: {x: 80.4, y: 83.5}
+  m_AnchoredPosition: {x: -119.71, y: -51.999718}
+  m_SizeDelta: {x: 87.32, y: 83.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1108161343
 MonoBehaviour:
@@ -3572,8 +3572,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.0000019073, y: -51.999718}
-  m_SizeDelta: {x: 80.4, y: 83.5}
+  m_AnchoredPosition: {x: -11.97, y: -51.999718}
+  m_SizeDelta: {x: 87.32, y: 83.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1811052414
 MonoBehaviour:
@@ -3764,7 +3764,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1012597984}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: LoadEndlessLevel
+        m_MethodName: LoadLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
