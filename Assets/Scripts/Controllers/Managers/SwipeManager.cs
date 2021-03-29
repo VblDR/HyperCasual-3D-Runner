@@ -37,6 +37,8 @@ public class SwipeManager : MonoBehaviour
                 Player.instance.Move(Direction.Left);
             if (Input.GetKeyDown(KeyCode.W))
                 Player.instance.Jump();
+            if ((Input.GetKeyDown(KeyCode.S)))
+                Player.instance.Slide();
         }
         else
         {
@@ -78,6 +80,8 @@ public class SwipeManager : MonoBehaviour
                         {
                             if (deltaPos.y > 0)
                                 Player.instance.Jump();
+                            if (deltaPos.y < 0)
+                                Player.instance.Slide();
                         }
                     }
 

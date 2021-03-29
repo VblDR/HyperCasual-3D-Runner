@@ -9,8 +9,6 @@ public class SwipeManagerTutorial : MonoBehaviour
     private Vector2 startPos, deltaPos;
     private bool moving;
     private bool finish = false;
-
-
     const float swipeTreshold = 0.1f;
 
     private void Awake()
@@ -37,6 +35,8 @@ public class SwipeManagerTutorial : MonoBehaviour
                 PlayerTutorial.instance.Move(Direction.Left);
             if (Input.GetKeyDown(KeyCode.W))
                 PlayerTutorial.instance.Jump();
+            if (Input.GetKeyDown(KeyCode.S))
+                PlayerTutorial.instance.Slide();
         }
         else
         {
@@ -78,6 +78,8 @@ public class SwipeManagerTutorial : MonoBehaviour
                         {
                             if (deltaPos.y > 0)
                                 PlayerTutorial.instance.Jump();
+                            if (deltaPos.y < 0)
+                                PlayerTutorial.instance.Slide();
                         }
                     }
 

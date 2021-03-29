@@ -18,7 +18,7 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
     public Image[] healthCount;
     public Sprite healthOn, healthOff;
 
-    public BoxCollider collider;
+    public BoxCollider _collider;
 
     public GameObject leftPose, rightPose;
 
@@ -32,7 +32,6 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
     public float immortalTime;
     private bool immortality = false;
 
-    private bool vibrating = false;
     private Coroutine falling;
 
     private void Awake()
@@ -41,7 +40,7 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
         instance = this;
         pos = transform.position;
-        collider.size = new Vector3(0.31f, 1f, 0.25f);
+        _collider.size = new Vector3(0.31f, 1f, 0.25f);
     }
 
     public void Move(Direction dir)
@@ -89,6 +88,24 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
         }
         */
     }
+
+    public void Slide()
+    {
+        anim.SetBool("Slide", true);
+        _collider.center -= new Vector3(0, 0.5f, 0);
+        _collider.size = new Vector3(0.31f, 1f, 0.25f);
+
+        StartCoroutine(CoroutineHelper.WaitFor(0.5f, delegate ()
+        {
+            anim.SetBool("Slide", false);
+        }));
+        StartCoroutine(CoroutineHelper.WaitFor(1, delegate ()
+        {
+            _collider.center += new Vector3(0, 0.5f, 0);
+            _collider.size = new Vector3(0.31f, 1f, 0.25f);
+        }));
+    }
+
 
     private IEnumerator Moving(Direction dir)
     {
@@ -156,16 +173,16 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
     {
         anim.SetBool("SetLeftPose", true);
         leftPose.SetActive(true);
-        collider.size = new Vector3(0.31f, 0.62f, 0.25f);
-        collider.center = new Vector3(0, 0.31f, 0);
+        _collider.size = new Vector3(0.31f, 0.62f, 0.25f);
+        _collider.center = new Vector3(0, 0.31f, 0);
     }
 
     public void SetRightPose()
     {
         anim.SetBool("SetRightPose", true);
         rightPose.SetActive(true);
-        collider.size = new Vector3(0.31f, 0.62f, 0.25f);
-        collider.center = new Vector3(0, 0.31f, 0);
+        _collider.size = new Vector3(0.31f, 0.62f, 0.25f);
+        _collider.center = new Vector3(0, 0.31f, 0);
     }
 
     public void SetEndPose()
@@ -174,8 +191,8 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
         anim.SetBool("SetLeftPose", false);
         anim.SetBool("EndPose", true);
 
-        collider.size = new Vector3(0.31f, 1f, 0.25f);
-        collider.center = new Vector3(0, 0.54f, 0);
+        _collider.size = new Vector3(0.31f, 1f, 0.25f);
+        _collider.center = new Vector3(0, 0.54f, 0);
 
         if (leftPose.activeSelf) leftPose.SetActive(false);
         if (rightPose.activeSelf) rightPose.SetActive(false);
@@ -194,16 +211,16 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
     public void Jump()
     {
         anim.SetBool("Jump", true);
-        collider.center += new Vector3(0, 0.5f, 0);
-        collider.size = new Vector3(0.31f, 1f, 0.25f);
+        _collider.center += new Vector3(0, 0.5f, 0);
+        _collider.size = new Vector3(0.31f, 1f, 0.25f);
         StartCoroutine(CoroutineHelper.WaitFor(0.5f, delegate ()
         {
             anim.SetBool("Jump", false);
         }));
         StartCoroutine(CoroutineHelper.WaitFor(1, delegate ()
         {
-            collider.center -= new Vector3(0, 0.5f, 0);
-            collider.size = new Vector3(0.31f, 1f, 0.25f);
+            _collider.center -= new Vector3(0, 0.5f, 0);
+            _collider.size = new Vector3(0.31f, 1f, 0.25f);
         }));
     }
 
@@ -302,7 +319,6 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
 
     private void CheckPlayerPrefs()
     {
-        if (PlayerPrefs.GetInt("Vibro") == 1) vibrating = true;
 
         health = PlayerPrefs.GetInt("Hearts");
         for (int i = 0; i < health; i++)

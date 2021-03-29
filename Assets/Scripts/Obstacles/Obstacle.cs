@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    private bool isBroken = false;
+    protected bool isBroken = false;
 
     private void Update()
     {
@@ -15,7 +15,7 @@ public class Obstacle : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if(other.GetComponent<IDamageable>() != null && !isBroken)
         {
@@ -28,16 +28,17 @@ public class Obstacle : MonoBehaviour
 
     protected virtual void DestroyMyself()
     {
-        
-        GetComponentInChildren<MeshRenderer>().enabled = false;
-        foreach(Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>())
+        if (gameObject.GetComponentInChildren<Rigidbody>() != null)
         {
-            rb.isKinematic = false;
-            rb.AddForce(new Vector3(Random.Range(-6f, 6f), Random.Range(-6f, 6f), Random.Range(-6f, 6f)), ForceMode.Impulse);
+            GetComponentInChildren<MeshRenderer>().enabled = false;
+            foreach (Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>())
+            {
+                rb.isKinematic = false;
+                rb.AddForce(new Vector3(Random.Range(-6f, 6f), Random.Range(-6f, 6f), Random.Range(-6f, 6f)), ForceMode.Impulse);
+            }
+            Destroy(gameObject, 2);
         }
-        Destroy(gameObject, 2);
-        
-
-        //Destroy(gameObject);
+        else
+            Destroy(gameObject);
     }
 }

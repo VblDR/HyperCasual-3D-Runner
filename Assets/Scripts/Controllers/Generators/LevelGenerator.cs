@@ -10,7 +10,9 @@ public class LevelGenerator : MonoBehaviour
     public GameObject smoothPlatformPrefab;
     public List<GameObject> platformsHolesPrefabs;
     public List<GameObject> specialPlatformPrefabs;
-    
+    public GameObject stairsUp;
+    public GameObject stairsDown;
+
     [Header("Finish Prefs")]
     public GameObject bridge;
     public GameObject transporter;
@@ -18,10 +20,12 @@ public class LevelGenerator : MonoBehaviour
 
     [Space(10)]
     public float maxSpeed;
+    public float stairsLength;
     private float speed = 0;
 
     private List<GameObject> roads = new List<GameObject>();
     public int roadsNumber;
+    private Vector3 direction;
 
     private void Awake()
     {
@@ -32,6 +36,7 @@ public class LevelGenerator : MonoBehaviour
 
     private void Start()
     {
+        direction = new Vector3(0, 0, speed);
         CreateLevel();
     }
 
@@ -123,18 +128,20 @@ public class LevelGenerator : MonoBehaviour
     {
         foreach (GameObject road in roads)
         {
-            road.transform.position -= new Vector3(0, 0, speed * Time.deltaTime);
+            road.transform.position -= direction * Time.deltaTime;
         }
     }
 
     public void StopRoad()
     {
         speed = 0;
+        direction.z = 0;
     }
 
     public void StartRoad()
     {
         speed = maxSpeed;
+        direction.z = maxSpeed;
     }
 
     private void CheckPlayerPrefs()
@@ -154,4 +161,14 @@ public class LevelGenerator : MonoBehaviour
         PlayerPrefs.SetInt("MoneyToSpawn", 15 + PlayerPrefs.GetInt("Level") - 1);
         PlayerPrefs.SetInt("MustShieldSpawn", 1);
     }
+    public void MoveUp()
+    {
+        direction.y -= 2;
+    }
+
+    public void MoveDown()
+    {
+        direction.y += 2;
+    }
+
 }

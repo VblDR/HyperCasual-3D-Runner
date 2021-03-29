@@ -510,7 +510,12 @@ MonoBehaviour:
   - {fileID: 2176188500904536257, guid: 29053a3602ee61944b609988c003f976, type: 3}
   - {fileID: 4516811797804316814, guid: d15fa5f1d256f174091e401d60fd4eae, type: 3}
   - {fileID: 4362146778408508586, guid: 2724f4c614f89df4b9abcae9dfd93698, type: 3}
+  - {fileID: 3977004370900751345, guid: b9e00631fa0c4704e8c44bf75299cabd, type: 3}
+  - {fileID: 2176188500904536257, guid: a6e7e976f8ab7454ba5da0ce5bec700f, type: 3}
+  stairsUp: {fileID: 2176188500904536257, guid: 6273e6189bd5b5c4e8922987a91eaa93, type: 3}
+  stairsDown: {fileID: 2176188500904536257, guid: d5406e7272f09f54584643a676c805cc, type: 3}
   maxSpeed: 5
+  stairsLength: 0
   maxRoads: 0
 --- !u!114 &288699131
 MonoBehaviour:
@@ -535,6 +540,10 @@ MonoBehaviour:
   - {fileID: 2176188500904536257, guid: 29053a3602ee61944b609988c003f976, type: 3}
   - {fileID: 4516811797804316814, guid: d15fa5f1d256f174091e401d60fd4eae, type: 3}
   - {fileID: 4362146778408508586, guid: 2724f4c614f89df4b9abcae9dfd93698, type: 3}
+  - {fileID: 3977004370900751345, guid: b9e00631fa0c4704e8c44bf75299cabd, type: 3}
+  - {fileID: 2176188500904536257, guid: a6e7e976f8ab7454ba5da0ce5bec700f, type: 3}
+  stairsUp: {fileID: 2176188500904536257, guid: 6273e6189bd5b5c4e8922987a91eaa93, type: 3}
+  stairsDown: {fileID: 2176188500904536257, guid: d5406e7272f09f54584643a676c805cc, type: 3}
   bridge: {fileID: 2176188500904536257, guid: 11019a0759fc66941ad0d5f4c7a7db59, type: 3}
   transporter: {fileID: 5408523628994358945, guid: 694634db4c922654ab97e24198c926f1, type: 3}
   castles:
@@ -542,6 +551,7 @@ MonoBehaviour:
   - {fileID: 6923653475346185411, guid: f9d704e941bebdb428196433a2d42577, type: 3}
   - {fileID: 2734866585919105020, guid: aeed66ef3e7c7a44580eda7aeec0b247, type: 3}
   maxSpeed: 5
+  stairsLength: 0
   roadsNumber: 25
 --- !u!114 &288699132
 MonoBehaviour:

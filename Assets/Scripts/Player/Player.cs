@@ -21,7 +21,7 @@ public class Player : MonoBehaviour, IDamageable
     public Image[] healthCount;
     public Sprite healthOn, healthOff;
 
-    public BoxCollider collider;
+    public BoxCollider _collider;
 
     public GameObject leftPose, rightPose;
 
@@ -44,7 +44,7 @@ public class Player : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
         instance = this;
         pos = transform.position;
-        collider.size = new Vector3(0.31f, 1f, 0.25f);
+        _collider.size = new Vector3(0.31f, 1f, 0.25f);
     }
 
     public void Move(Direction dir)
@@ -157,16 +157,16 @@ public class Player : MonoBehaviour, IDamageable
     {
         anim.SetBool("SetLeftPose", true);
         leftPose.SetActive(true);
-        collider.size = new Vector3(0.31f, 0.62f, 0.25f);
-        collider.center = new Vector3(0, 0.31f, 0);
+        _collider.size = new Vector3(0.31f, 0.62f, 0.25f);
+        _collider.center = new Vector3(0, 0.31f, 0);
     }
 
     public void SetRightPose()
     {
         anim.SetBool("SetRightPose", true);
         rightPose.SetActive(true);
-        collider.size = new Vector3(0.31f, 0.62f, 0.25f);
-        collider.center = new Vector3(0, 0.31f, 0);
+        _collider.size = new Vector3(0.31f, 0.62f, 0.25f);
+        _collider.center = new Vector3(0, 0.31f, 0);
     }
 
     public void SetEndPose()
@@ -175,8 +175,8 @@ public class Player : MonoBehaviour, IDamageable
         anim.SetBool("SetLeftPose", false);
         anim.SetBool("EndPose", true);
 
-        collider.size = new Vector3(0.31f, 1f, 0.25f);
-        collider.center = new Vector3(0, 0.54f, 0);
+        _collider.size = new Vector3(0.31f, 1f, 0.25f);
+        _collider.center = new Vector3(0, 0.54f, 0);
 
         if (leftPose.activeSelf) leftPose.SetActive(false);
         if (rightPose.activeSelf) rightPose.SetActive(false);
@@ -195,16 +195,33 @@ public class Player : MonoBehaviour, IDamageable
     public void Jump()
     {
         anim.SetBool("Jump", true);
-        collider.center += new Vector3(0, 0.5f, 0);
-        collider.size = new Vector3(0.31f, 1f, 0.25f);
+        _collider.center += new Vector3(0, 0.5f, 0);
+        _collider.size = new Vector3(0.31f, 1f, 0.25f);
         StartCoroutine(CoroutineHelper.WaitFor(0.5f, delegate ()
         {
             anim.SetBool("Jump", false);
         }));
         StartCoroutine(CoroutineHelper.WaitFor(1, delegate ()
         {
-            collider.center -= new Vector3(0, 0.5f, 0);
-            collider.size = new Vector3(0.31f, 1f, 0.25f);
+            _collider.center -= new Vector3(0, 0.5f, 0);
+            _collider.size = new Vector3(0.31f, 1f, 0.25f);
+        }));
+    }
+
+    public void Slide()
+    {
+        anim.SetBool("Slide", true);
+        _collider.center -= new Vector3(0, 0.5f, 0);
+        _collider.size = new Vector3(0.31f, 1f, 0.25f);
+
+        StartCoroutine(CoroutineHelper.WaitFor(0.5f, delegate ()
+        {
+            anim.SetBool("Slide", false);
+        }));
+        StartCoroutine(CoroutineHelper.WaitFor(1, delegate ()
+        {
+            _collider.center += new Vector3(0, 0.5f, 0);
+            _collider.size = new Vector3(0.31f, 1f, 0.25f);
         }));
     }
 
