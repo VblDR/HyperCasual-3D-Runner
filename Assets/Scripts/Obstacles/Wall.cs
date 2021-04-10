@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Wall : Obstacle
 {
-
     protected override void DestroyMyself()
     {
         GetComponentInChildren<MeshRenderer>().enabled = false;

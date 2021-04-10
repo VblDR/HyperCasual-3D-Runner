@@ -20,7 +20,7 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
 
     public BoxCollider _collider;
 
-    public GameObject leftPose, rightPose;
+    public GameObject leftPose, rightPose, upPose, downPose;
 
     private Animator anim;
     private Coroutine coroutine;
@@ -41,6 +41,11 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
         instance = this;
         pos = transform.position;
         _collider.size = new Vector3(0.31f, 1f, 0.25f);
+    }
+
+    private void Start()
+    {
+        cameraInScene.GetComponent<Camera>().SetStart();
     }
 
     public void Move(Direction dir)
@@ -173,29 +178,83 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
     {
         anim.SetBool("SetLeftPose", true);
         leftPose.SetActive(true);
-        _collider.size = new Vector3(0.31f, 0.62f, 0.25f);
-        _collider.center = new Vector3(0, 0.31f, 0);
+        ColliderOff();
+        StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+        {
+            anim.SetBool("SetLeftPose", false);
+        }));
+
+        StartCoroutine(CoroutineHelper.WaitFor(0.9f, delegate ()
+        {
+            SetEndPose();
+        }));
     }
 
     public void SetRightPose()
     {
         anim.SetBool("SetRightPose", true);
         rightPose.SetActive(true);
-        _collider.size = new Vector3(0.31f, 0.62f, 0.25f);
-        _collider.center = new Vector3(0, 0.31f, 0);
+        ColliderOff();
+
+        StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+        {
+            anim.SetBool("SetRightPose", false);
+        }));
+
+        StartCoroutine(CoroutineHelper.WaitFor(0.9f, delegate ()
+        {
+            SetEndPose();
+        }));
+    }
+
+    public void SetUpPose()
+    {
+        anim.SetBool("SetUpPose", true);
+        upPose.SetActive(true);
+        ColliderOff();
+
+        StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+        {
+            anim.SetBool("SetUpPose", false);
+        }));
+
+        StartCoroutine(CoroutineHelper.WaitFor(0.9f, delegate ()
+        {
+            SetEndPose();
+        }));
+    }
+
+    public void SetDownPose()
+    {
+        anim.SetBool("SetDownPose", true);
+        downPose.SetActive(true);
+        ColliderOff();
+        StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+        {
+            anim.SetBool("SetDownPose", false);
+        }));
+
+        StartCoroutine(CoroutineHelper.WaitFor(0.7f, delegate ()
+        {
+            SetEndPose();
+        }));
     }
 
     public void SetEndPose()
     {
         anim.SetBool("SetRightPose", false);
         anim.SetBool("SetLeftPose", false);
+        anim.SetBool("SetUpPose", false);
+        anim.SetBool("SetDownPose", false);
         anim.SetBool("EndPose", true);
 
-        _collider.size = new Vector3(0.31f, 1f, 0.25f);
-        _collider.center = new Vector3(0, 0.54f, 0);
+        ColliderOn();
 
         if (leftPose.activeSelf) leftPose.SetActive(false);
         if (rightPose.activeSelf) rightPose.SetActive(false);
+        if (upPose.activeSelf) upPose.SetActive(false);
+        if (downPose.activeSelf) downPose.SetActive(false);
+
         StartCoroutine(CoroutineHelper.WaitFor(0.5f, delegate ()
         {
             anim.SetBool("EndPose", false);
@@ -234,13 +293,7 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
     {
         if (!immortality)
         {
-            health = 0;
             SwipeManagerTutorial.instance.enabled = false;
-            PlayerPrefs.SetInt("Hearts", 0);
-            foreach (var c in healthCount)
-            {
-                c.sprite = healthOff;
-            }
 
             falling = StartCoroutine(Falling());
             Death();
@@ -274,24 +327,11 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
         {
             SwipeManagerTutorial.instance.SetFinish(true);
             transform.position = Vector3.forward;
-            StartCoroutine(CoroutineHelper.WaitFor(0.5f, delegate ()
-            {
-                StopMove();
-                transform.position = Vector3.forward;
-            }));
             StartCoroutine(CoroutineHelper.WaitFor(1.05f, delegate ()
             {
-                transform.position = Vector3.forward;
                 cameraInScene.GetComponent<Camera>().SetFinish();
-                TutorialGenerator.instance.StopRoad();
-                IslandGenerator.instance.StopIslands();
                 TutorialController.instance.ActivateCastles();
             }));
-        }
-        else if (other.CompareTag("Finish"))
-        {
-            TutorialController.instance.DestroyCastle();
-            SetEndPose();
         }
         else if (other.CompareTag("Castle"))
         {
@@ -330,5 +370,15 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
             health = 1;
             healthCount[0].sprite = healthOn;
         }
+    }
+
+    private void ColliderOff()
+    {
+        _collider.enabled = false;
+    }
+
+    private void ColliderOn()
+    {
+        _collider.enabled = true;
     }
 }

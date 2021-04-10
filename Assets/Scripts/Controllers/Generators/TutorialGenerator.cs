@@ -26,7 +26,7 @@ public class TutorialGenerator : MonoBehaviour
         if (speed != 0)
             MovePlatforms();
 
-        if (roads[0].transform.position.z < -5)
+        if (roads[0].transform.position.z < -16)
         {
             Destroy(roads[0]);
             roads.RemoveAt(0);

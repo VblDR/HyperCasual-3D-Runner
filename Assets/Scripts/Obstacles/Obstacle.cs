@@ -20,7 +20,20 @@ public class Obstacle : MonoBehaviour
         if(other.GetComponent<IDamageable>() != null && !isBroken)
         {
             isBroken = true;
-            other.GetComponent<IDamageable>().AcceptDamage();
+            if (Player.instance != null)
+            {
+                if (other.GetComponentInParent<Player>().shield.activeSelf)
+                    Shield.instance.AcceptDamage();
+                else
+                    other.GetComponent<IDamageable>().AcceptDamage();
+            }
+            else
+            {
+                if (other.GetComponentInParent<PlayerTutorial>().shield.activeSelf)
+                    Shield.instance.AcceptDamage();
+                else
+                    other.GetComponent<IDamageable>().AcceptDamage();
+            }
             DestroyMyself();
         }
     }
@@ -30,7 +43,6 @@ public class Obstacle : MonoBehaviour
     {
         if (gameObject.GetComponentInChildren<Rigidbody>() != null)
         {
-            GetComponentInChildren<MeshRenderer>().enabled = false;
             foreach (Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>())
             {
                 rb.isKinematic = false;

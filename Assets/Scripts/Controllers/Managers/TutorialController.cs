@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class TutorialController : MonoBehaviour
 {
-    public List<CastleTutorial> castles;
+    public List<GameObject> castles;
 
     public static TutorialController instance;
 
     //UI
-    public GameObject leftCastleInfo, rigthCastleInfo, UpCastleInfo, movementInfo;
+    public GameObject leftCastleInfo, rigthCastleInfo, UpCastleInfo, movementInfo, downCastleInfo;
     public GameObject lostPanel, finishPanel;
     public GameObject blur;
     public Text moneyDisplay;
@@ -71,6 +71,8 @@ public class TutorialController : MonoBehaviour
     public void ActivateCastles()
     {
         castleStage = true;
+        if (PlayerTutorial.instance.shield.activeSelf)
+            Shield.instance.AcceptDamage();
         blur.SetActive(true);
         leftCastleInfo.SetActive(true);
 
@@ -79,66 +81,49 @@ public class TutorialController : MonoBehaviour
             blur.SetActive(false);
             leftCastleInfo.SetActive(false);
         }));
-
-        StartCoroutine(CoroutineHelper.WaitFor(1.2f, delegate ()
-        {
-            foreach (var c in castles)
-            {
-                c.MoveCastle();
-            }
-        }));
-
     }
 
     public void DestroyCastle()
     {
         castles.RemoveAt(0);
 
-        if(castles.Count > 0)
+        if (castles.Count > 0)
         {
-            foreach (CastleTutorial c in castles)
-                c.StopCastle();
+            StopRoad();
 
             blur.SetActive(true);
-            if (castles.Count == 2)
+            if (castles.Count == 3)
                 rigthCastleInfo.SetActive(true);
-            else
+            else if (castles.Count == 2)
                 UpCastleInfo.SetActive(true);
-
+            else
+                downCastleInfo.SetActive(true);
 
             StartCoroutine(CoroutineHelper.WaitFor(0.7f, delegate ()
             {
                 blur.SetActive(false);
-                if (castles.Count == 2)
+                if (castles.Count == 3)
                     rigthCastleInfo.SetActive(false);
-                else
+                else if (castles.Count == 2)
                     UpCastleInfo.SetActive(false);
+                else
+                    downCastleInfo.SetActive(false);
+
+                StartGame();
             }));
 
-            StartCoroutine(CoroutineHelper.WaitFor(1.2f, delegate ()
-            {
-                foreach (var c in castles)
-                {
-                    c.MoveCastle();
-                }
-            }));
         }
         else if (castles.Count == 0 && PlayerTutorial.instance.health != 0)
-            GameFinished();
+            StartCoroutine(CoroutineHelper.WaitFor(1f, delegate () {
+                GameFinished();
+            }));
+            
     }
 
 
     public void GameOver()
     {
-        SwipeManagerTutorial.instance.enabled = false;
-        TutorialGenerator.instance.StopRoad();
-        IslandGenerator.instance.StopIslands();
-
-        if (castleStage)
-            foreach (CastleTutorial c in castles)
-            {
-                c.StopCastle();
-            }
+        StopRoad();
 
         blur.SetActive(true);
         lostPanel.SetActive(true);
@@ -148,6 +133,7 @@ public class TutorialController : MonoBehaviour
 
     public void GameFinished()
     {
+        StopRoad();
         PlayerTutorial.instance.SetVictory();
         foreach (var c in particles)
         {
@@ -213,8 +199,6 @@ public class TutorialController : MonoBehaviour
                 StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
                 {
                     TutorialGenerator.instance.StopRoad();
-
-                    PlayerTutorial.instance.IncreaseHP();
                     PlayerTutorial.instance.transform.position = new Vector3(PlayerTutorial.instance.transform.position.x, 0, 1);
 
 
@@ -268,5 +252,24 @@ public class TutorialController : MonoBehaviour
             tutorial = true;
             PlayerPrefs.SetInt("Tutorial", 0);
         }
+    }
+
+    private void StopRoad()
+    {
+        SwipeManagerTutorial.instance.enabled = false;
+        TutorialGenerator.instance.StopRoad();
+        IslandGenerator.instance.StopIslands();
+    }
+
+    public void SlowMotionOn()
+    {
+        Time.timeScale = 0.5f;
+        Time.fixedDeltaTime = 0.2F * Time.timeScale;
+    }
+
+    public void SlowMotionOff()
+    {
+        Time.timeScale = 1;
+        Time.fixedDeltaTime = 0.2F * Time.timeScale;
     }
 }

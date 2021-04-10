@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     public List<Castle> castles = new List<Castle>();
 
     //UI
-    public GameObject lostPanel, finishPanel;
+    public GameObject lostPanel, finishPanel, lostPanelCastleStage;
     public GameObject blur;
     public Text moneyDisplay;
 
@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
 
     private bool castleStage = false;
     public bool bridgeHole = false;
-
+    private bool gameOver = false;
 
     private void Awake()
     {
@@ -75,45 +75,56 @@ public class GameController : MonoBehaviour
     public void ActivateCastles()
     {
         castleStage = true;
-        foreach(var c in castles)
-        {
-            c.MoveCastle();
-        }
+        if (Player.instance.shield.activeSelf)
+            Shield.instance.AcceptDamage();
     }
 
     public void DestroyCastle()
     {
         castles.RemoveAt(0);
         Debug.Log(castles.Count);
-        if (castles.Count == 0 && Player.instance.health != 0)
+        LevelGenerator.instance.IncreaseSpeed();
+        if (castles.Count == 0 && !gameOver)
             GameFinished();
     }
 
 
     public void GameOver()
     {
-        SwipeManager.instance.enabled = false;
-        if (RoadGenerator.instance != null)
-            RoadGenerator.instance.StopRoad();
-        else
-            LevelGenerator.instance.StopRoad();
-        IslandGenerator.instance.StopIslands();
+        gameOver = true;
+        StopRoad();
 
-        if(castleStage)
-            foreach(Castle c in castles)
-            {
-                c.StopCastle();
-            }
+        if(RoadGenerator.instance != null)
+        {
+            moneyDisplay.text = "+" + Player.instance.money;
+        }
 
         blur.SetActive(true);
-        lostPanel.SetActive(true);
-
+        if (castleStage)
+        {
+            lostPanelCastleStage.SetActive(true);
+            StartCoroutine(CoroutineHelper.WaitFor(1, delegate ()
+            {
+                SceneManager.LoadScene("MainMenu");
+            }));
+        }
+        else
+        {
+            lostPanel.SetActive(true);
+        }
     }
+
 
 
     public void GameFinished()
     {
-        Player.instance.SetVictory();
+        StartCoroutine(CoroutineHelper.WaitFor(1, delegate ()
+        {
+            StopRoad();
+            Player.instance.SetVictory();
+        }));
+
+
         foreach(var c in particles)
         {
             c.SetActive(true);
@@ -124,6 +135,10 @@ public class GameController : MonoBehaviour
             finishPanel.SetActive(true);
             moneyDisplay.text = "+" + Player.instance.money;
         }));
+
+
+        if (PlayerPrefs.GetInt("CastlesNumber") != 10 && PlayerPrefs.GetInt("Level") % 5 == 0)
+            PlayerPrefs.SetInt("CastlesNumber", PlayerPrefs.GetInt("CastlesNumber") + 1);
         PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
         if (PlayerPrefs.GetInt("Level") % 10 == 0)
         {
@@ -139,8 +154,10 @@ public class GameController : MonoBehaviour
 
         if (PlayerPrefs.GetFloat("ObstacleProbability") < 0.4f)
         {
-            PlayerPrefs.SetFloat("ObstacleProbability", PlayerPrefs.GetFloat("ObstacleProbability") + 0.008f);
+            PlayerPrefs.SetFloat("ObstacleProbability", PlayerPrefs.GetFloat("ObstacleProbability") + 0.006f);
         }
+
+
     }
 
     //button funcs
@@ -164,10 +181,11 @@ public class GameController : MonoBehaviour
 
     public void ReturnPlayerToLevel()
     {
-
+        gameOver = false;
         lostPanel.SetActive(false);
         blur.SetActive(false);
         Player.instance.StopFallingCoroutine();
+        Player.instance.SetDefaultState();
         if (!castleStage)
         {
             if (!bridgeHole)
@@ -186,7 +204,8 @@ public class GameController : MonoBehaviour
                         LevelGenerator.instance.StopRoad();
                     IslandGenerator.instance.StopIslands();
 
-                    Player.instance.IncreaseHP();
+                    if(Player.instance.health == 0)
+                        Player.instance.IncreaseHP();
                     Player.instance.transform.position = new Vector3(Player.instance.transform.position.x, 0, 1);
 
 
@@ -223,7 +242,7 @@ public class GameController : MonoBehaviour
             {
                 Player.instance.IncreaseHP();
                 SwipeManager.instance.enabled = true;
-                ActivateCastles();
+                StartGame();
             }
         }
 
@@ -240,5 +259,30 @@ public class GameController : MonoBehaviour
             tutorial = true;
             PlayerPrefs.SetInt("Tutorial", 0);
         }
+
+        if(PlayerPrefs.GetInt("ShieldBought") == 1)
+        {
+            Player.instance.ActivateShield();
+        }
+    }
+
+    private void StopRoad()
+    {
+        SwipeManager.instance.enabled = false;
+        if (RoadGenerator.instance != null) RoadGenerator.instance.StopRoad();
+        else LevelGenerator.instance.StopRoad();
+        IslandGenerator.instance.StopIslands();
+    }
+
+    public void SlowMotionOn()
+    {
+        Time.timeScale = 0.5f;
+        Time.fixedDeltaTime = 0.2F * Time.timeScale;
+    }
+
+    public void SlowMotionOff()
+    {
+        Time.timeScale = 1;
+        Time.fixedDeltaTime = 0.2F * Time.timeScale;
     }
 }

@@ -78,9 +78,9 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TextureVisibility: 0.276
+    - _TextureVisibility: 0.499
     - _UVSec: 0
-    - _WaterHeight: 1.43
+    - _WaterHeight: -1.56
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

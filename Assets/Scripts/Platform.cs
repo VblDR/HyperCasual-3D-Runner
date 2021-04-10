@@ -32,13 +32,7 @@ public class Platform : MonoBehaviour
 
             if (PlayerPrefs.GetInt("EndlessLevel") == 0)
             {
-                if (PlayerPrefs.GetInt("MustHeartSpawn") == 1 && Random.Range(0, 10) > 5)
-                {
-                    GameObject heartObj = Instantiate(heart, heartSpawn[Random.Range(0, 3)].position, Quaternion.identity);
-                    heartObj.transform.SetParent(transform);
-                    PlayerPrefs.SetInt("MustHeartSpawn", 0);
-                }
-                else if (PlayerPrefs.GetInt("MustShieldSpawn") == 1)
+                if (PlayerPrefs.GetInt("MustShieldSpawn") == 1)
                 {
                     PlayerPrefs.SetInt("MustShieldSpawn", 0);
                     GameObject shieldObj = Instantiate(shield, shieldSpawn[Random.Range(0, 3)].position, Quaternion.identity);

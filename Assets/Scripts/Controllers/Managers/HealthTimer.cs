@@ -89,9 +89,21 @@ public class HealthTimer : MonoBehaviour
         {
             shouldHeal = false;
         }
+
         for(int i = 0; i < PlayerPrefs.GetInt("Hearts"); i++)
         {
             healthCount[i].sprite = healthOn;
         }
+    }
+
+    public void UpdateHealth()
+    {
+        healthCount[PlayerPrefs.GetInt("Hearts") - 1].sprite = healthOn;
+        if (PlayerPrefs.GetInt("Hearts") >= 3)
+        {
+            shouldHeal = false;
+            timer.gameObject.SetActive(false);
+            PlayerPrefs.SetInt("RewardedVideoYear", 0);
+        }   
     }
 }

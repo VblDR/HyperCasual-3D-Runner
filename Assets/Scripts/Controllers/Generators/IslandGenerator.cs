@@ -19,6 +19,7 @@ public class IslandGenerator : MonoBehaviour
     private float timeToSecret = 300;
     private bool secretSpawned = false;
     private bool isEndless = false;
+    public Vector3 direction;
 
     private void Start()
     {
@@ -39,7 +40,7 @@ public class IslandGenerator : MonoBehaviour
 
         foreach (GameObject island in spawned)
         {
-            island.transform.position -= new Vector3(0, 0, speed * Time.deltaTime);
+            island.transform.position -= direction * Time.deltaTime;
         }
 
         if (spawned[0].transform.position.z < -10)
@@ -84,11 +85,13 @@ public class IslandGenerator : MonoBehaviour
     public void MoveIslands()
     {
         speed = maxSpeed;
+        direction = new Vector3(0, 0, speed);
     }
 
     public void StopIslands()
     {
         speed = 0;
+        direction = new Vector3(0, 0, speed);
     }
 }
 

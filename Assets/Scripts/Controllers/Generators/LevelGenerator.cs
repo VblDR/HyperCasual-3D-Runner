@@ -26,6 +26,8 @@ public class LevelGenerator : MonoBehaviour
     private List<GameObject> roads = new List<GameObject>();
     public int roadsNumber;
     private Vector3 direction;
+    private int castleNumber = 4;
+    private float posAddition;
 
     private void Awake()
     {
@@ -45,7 +47,7 @@ public class LevelGenerator : MonoBehaviour
         if (speed != 0)
             MovePlatforms();
 
-        if(roads[0].transform.position.z < -5)
+        if(roads[0].transform.position.z < -16)
         {
             Destroy(roads[0]);
             roads.RemoveAt(0);
@@ -54,12 +56,13 @@ public class LevelGenerator : MonoBehaviour
 
     private void CreateLevel()
     {
-        Vector3 pos = new Vector3(0, -0.25f, -3);
+        Vector3 pos = new Vector3(0, -0.25f, 0);
 
         for(int i = 1; i <= roadsNumber; i++)
         {
             CreatePlatfrom(pos, i);
-            pos += new Vector3(0, 0, 3);
+            pos += new Vector3(0, posAddition, 3.1f);
+            posAddition = 0;
         }
 
         GameObject platform;
@@ -67,33 +70,21 @@ public class LevelGenerator : MonoBehaviour
         platform.transform.SetParent(transform);
         roads.Add(platform);
 
-        pos += new Vector3(0, 0, 3.775f);
+        pos += new Vector3(0, 0, 4.6005f);
         GameObject bridgePlatform = Instantiate(bridge, pos, Quaternion.identity);
         bridgePlatform.transform.SetParent(transform);
         roads.Add(bridgePlatform);
 
-        pos += new Vector3(0, 0, 6.188f);
-        GameObject transporterPlatform = Instantiate(transporter, pos, Quaternion.identity);
-        transporterPlatform.transform.SetParent(transform);
-        roads.Add(transporterPlatform);
+        pos += new Vector3(0, 0, 7f);
 
-        pos += new Vector3(0, 0, 7.826f);
-        GameObject castle = Instantiate(castles[Random.Range(0, 3)], pos, Quaternion.identity);
-        castle.transform.SetParent(transform);
-        roads.Add(castle);
-        GameController.instance.castles.Add(castle.GetComponentInChildren<Castle>());
-
-        pos += new Vector3(0, 0, 7.826f);
-        GameObject castle2 = Instantiate(castles[Random.Range(0, 3)], pos, Quaternion.identity);
-        castle2.transform.SetParent(transform);
-        roads.Add(castle2);
-        GameController.instance.castles.Add(castle2.GetComponentInChildren<Castle>());
-
-        pos += new Vector3(0, 0, 7.826f);
-        GameObject castle3 = Instantiate(castles[Random.Range(0, 3)], pos, Quaternion.identity);
-        castle3.transform.SetParent(transform);
-        roads.Add(castle3);
-        GameController.instance.castles.Add(castle3.GetComponentInChildren<Castle>());
+        for(int i = 0; i < castleNumber; i++)
+        {
+            GameObject castle = Instantiate(castles[Random.Range(0, 4)], pos, Quaternion.identity);
+            castle.transform.SetParent(transform);
+            roads.Add(castle);
+            GameController.instance.castles.Add(castle.GetComponentInChildren<Castle>());
+            pos += new Vector3(0, 0, 15.6f);
+        }
     }
 
     private void CreatePlatfrom(Vector3 pos, int step)
@@ -113,6 +104,29 @@ public class LevelGenerator : MonoBehaviour
                 platform = Instantiate(specialPlatformPrefabs[Random.Range(0, specialPlatformPrefabs.Count)], pos, Quaternion.identity);
             else
                 platform = Instantiate(smoothPlatformPrefab, pos, Quaternion.identity);
+        }
+        else if (step % 7 == 0)
+        {
+            if (Random.Range(0, 10) > 6)
+            {
+
+                if (Random.Range(0, 2) > 0)
+                {
+                    platform = Instantiate(stairsDown, pos, Quaternion.identity);
+                    posAddition -= stairsLength;
+                }
+                else
+                {
+                    platform = Instantiate(stairsUp, pos, Quaternion.identity);
+                    posAddition += stairsLength;
+                }
+            }
+            else
+            {
+                platform = Instantiate(smoothPlatformPrefab, pos, Quaternion.identity);
+                if (Random.Range(0, 2) == 1)
+                    platform.transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
         }
         else
             platform = Instantiate(smoothPlatformPrefab, pos, Quaternion.identity);
@@ -147,28 +161,27 @@ public class LevelGenerator : MonoBehaviour
     private void CheckPlayerPrefs()
     {
 
-         roadsNumber += PlayerPrefs.GetInt("Level");
-            
-         if(PlayerPrefs.GetInt("LevelWithoutHeart") == 4)
-         {
-              PlayerPrefs.SetInt("MustHeartSpawn", 1);
-              PlayerPrefs.SetInt("LevelWithoutHeart", 0);
-         }
-         else
-            PlayerPrefs.SetInt("LevelWithoutHeart", PlayerPrefs.GetInt("LevelWithoutHeart") + 1);
+        roadsNumber += PlayerPrefs.GetInt("CastlesNumber");
 
         maxSpeed = PlayerPrefs.GetFloat("Speed");
         PlayerPrefs.SetInt("MoneyToSpawn", 15 + PlayerPrefs.GetInt("Level") - 1);
         PlayerPrefs.SetInt("MustShieldSpawn", 1);
+        castleNumber = PlayerPrefs.GetInt("CastlesNumber");
     }
     public void MoveUp()
     {
-        direction.y -= 2;
+        direction.y -= 1.9f;
     }
 
     public void MoveDown()
     {
-        direction.y += 2;
+        direction.y += 1.9f;
     }
 
+
+    public void IncreaseSpeed()
+    {
+        speed += 0.2f * speed;
+        maxSpeed = speed;
+    }
 }

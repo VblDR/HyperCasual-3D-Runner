@@ -8,11 +8,23 @@ public class HoriznotalSpikes : Obstacle
     {
         if (other.GetComponent<IDamageable>() != null && !isBroken)
         {
-            if (Player.instance.activeShield)
-                Shield.instance.AcceptDamage();
+            if (Player.instance != null)
+            {
+                if (Player.instance.activeShield)
+                    Shield.instance.AcceptDamage();
+                else
+                    other.GetComponent<IDamageable>().AcceptDamage();
+                isBroken = true;
+            }
             else
-                other.GetComponent<IDamageable>().AcceptDamage();
-            isBroken = true;
+            {
+                if (PlayerTutorial.instance.activeShield)
+                    Shield.instance.AcceptDamage();
+                else
+                    other.GetComponent<IDamageable>().AcceptDamage();
+                isBroken = true;
+            }
+            
             DestroyMyself();
         }
     }

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 
-    private const int version = 6;
+    private const int version = 16;
     public Text currentLevel;
     public Animator settingsPanel;
     public Text moneyText;
@@ -18,25 +18,44 @@ public class MainMenu : MonoBehaviour
     public Image vibro;
 
     private int level;
+    private bool levelActive = true;
+    public GameObject levelButton, endlessButton;
+
+    public HealthTimer timer;
 
     private void Awake()
     {
         CheckPlayerPrefs();
     }
 
-
-    public void LoadEndlessLevel()
-    {
-        SceneManager.LoadScene("EndlessLEvel");
-    }
-
-
     public void LoadLevel()
     {
-        if (PlayerPrefs.GetInt("TutorialCastles") == 1)
-            SceneManager.LoadScene("Level1");
+        if (levelActive)
+        {
+            if (PlayerPrefs.GetInt("TutorialCastles") == 1)
+                SceneManager.LoadScene("Level1");
+            else
+                SceneManager.LoadScene("Level");
+        }
         else
-            SceneManager.LoadScene("Level");
+        {
+            SceneManager.LoadScene("EndlessLevel");
+        }
+    }
+
+    public void SwitchLevel()
+    {
+        if(levelActive)
+        {
+            levelButton.SetActive(false);
+            endlessButton.SetActive(true);
+        }
+        else
+        {
+            levelButton.SetActive(true);
+            endlessButton.SetActive(false);
+        }
+        levelActive = !levelActive;
     }
 
     public void SwitchSettings()
@@ -113,7 +132,7 @@ public class MainMenu : MonoBehaviour
         }
         if (!PlayerPrefs.HasKey("ObstacleProbability"))
         {
-            PlayerPrefs.SetFloat("ObstacleProbability", 0.004f);
+            PlayerPrefs.SetFloat("ObstacleProbability", 0.015f);
         }
 
         if (PlayerPrefs.GetInt("EndlessLevel") == 1) PlayerPrefs.SetInt("EndlessLevel", 0);
@@ -132,5 +151,34 @@ public class MainMenu : MonoBehaviour
         moneyText.text = PlayerPrefs.GetInt("Money").ToString();
         level = PlayerPrefs.GetInt("Level");
         currentLevel.text = level.ToString();
+
+        if (!PlayerPrefs.HasKey("CastlesNumber"))
+        {
+            PlayerPrefs.SetInt("CastlesNumber", 4);
+        }
+
+        if (!PlayerPrefs.HasKey("BestScore"))
+            PlayerPrefs.SetInt("BestScore", 0);
+    }
+
+    public void BuyHealth()
+    {
+        if (PlayerPrefs.GetInt("Money") >= 500 && PlayerPrefs.GetInt("Hearts") < 3)
+        {
+            PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") - 500);
+            moneyText.text = PlayerPrefs.GetInt("Money").ToString();
+            PlayerPrefs.SetInt("Hearts", PlayerPrefs.GetInt("Hearts") + 1);
+            timer.UpdateHealth();
+        }
+    }
+
+    public void BuyShield()
+    {
+        if (PlayerPrefs.GetInt("Money") >= 1000 && PlayerPrefs.GetInt("ShieldBought") != 1)
+        {
+            PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") - 1000);
+            moneyText.text = PlayerPrefs.GetInt("Money").ToString();
+            PlayerPrefs.SetInt("ShieldBought", 1);
+        }
     }
 }
