@@ -2194,7 +2194,7 @@ MonoBehaviour:
   vibro: {fileID: 972072983}
   levelButton: {fileID: 2073771685}
   endlessButton: {fileID: 950414164}
-  timer: {fileID: 0}
+  timer: {fileID: 1012597986}
 --- !u!4 &1012597985
 Transform:
   m_ObjectHideFlags: 0
@@ -3874,7 +3874,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1993003399}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.000036707}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 213573668}
@@ -3882,7 +3882,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 1.6144e-11, y: 353}
+  m_AnchoredPosition: {x: 0, y: 199}
   m_SizeDelta: {x: 482.7, y: 173.29999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1993003401

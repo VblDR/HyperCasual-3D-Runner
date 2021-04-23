@@ -33,7 +33,9 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
     private bool immortality = false;
 
     private Coroutine falling;
-
+    private bool couldSetPose = true;
+    
+    
     private void Awake()
     {
         CheckPlayerPrefs();
@@ -176,68 +178,99 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
 
     public void SetLeftPose()
     {
-        anim.SetBool("SetLeftPose", true);
-        leftPose.SetActive(true);
-        ColliderOff();
-        StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+        if (couldSetPose)
         {
-            anim.SetBool("SetLeftPose", false);
-        }));
+            anim.SetBool("SetLeftPose", true);
+            leftPose.SetActive(true);
+            ColliderOff();
+            StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+            {
+                anim.SetBool("SetLeftPose", false);
+            }));
 
-        StartCoroutine(CoroutineHelper.WaitFor(0.9f, delegate ()
-        {
-            SetEndPose();
-        }));
+            StartCoroutine(CoroutineHelper.WaitFor(0.9f, delegate ()
+            {
+                SetEndPose();
+            }));
+            couldSetPose = false;
+            StartCoroutine(CoroutineHelper.WaitFor(1f, delegate ()
+            {
+                couldSetPose = true;
+            }));
+        }
     }
 
     public void SetRightPose()
     {
-        anim.SetBool("SetRightPose", true);
-        rightPose.SetActive(true);
-        ColliderOff();
-
-        StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+        if (couldSetPose)
         {
-            anim.SetBool("SetRightPose", false);
-        }));
+            anim.SetBool("SetRightPose", true);
+            rightPose.SetActive(true);
+            ColliderOff();
+            StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+            {
+                anim.SetBool("SetRightPose", false);
+            }));
 
-        StartCoroutine(CoroutineHelper.WaitFor(0.9f, delegate ()
-        {
-            SetEndPose();
-        }));
+            StartCoroutine(CoroutineHelper.WaitFor(0.9f, delegate ()
+            {
+                SetEndPose();
+            }));
+            couldSetPose = false;
+            StartCoroutine(CoroutineHelper.WaitFor(1f, delegate ()
+            {
+                couldSetPose = true;
+            }));
+        }
     }
 
     public void SetUpPose()
     {
-        anim.SetBool("SetUpPose", true);
-        upPose.SetActive(true);
-        ColliderOff();
-
-        StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+        if (couldSetPose)
         {
-            anim.SetBool("SetUpPose", false);
-        }));
+            anim.SetBool("SetUpPose", true);
+            upPose.SetActive(true);
+            ColliderOff();
+            StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+            {
+                anim.SetBool("SetUpPose", false);
+            }));
 
-        StartCoroutine(CoroutineHelper.WaitFor(0.9f, delegate ()
-        {
-            SetEndPose();
-        }));
+            StartCoroutine(CoroutineHelper.WaitFor(0.9f, delegate ()
+            {
+                SetEndPose();
+            }));
+
+            couldSetPose = false;
+            StartCoroutine(CoroutineHelper.WaitFor(1f, delegate ()
+            {
+                couldSetPose = true;
+            }));
+        }
     }
 
     public void SetDownPose()
     {
-        anim.SetBool("SetDownPose", true);
-        downPose.SetActive(true);
-        ColliderOff();
-        StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+        if (couldSetPose)
         {
-            anim.SetBool("SetDownPose", false);
-        }));
+            anim.SetBool("SetDownPose", true);
+            downPose.SetActive(true);
+            ColliderOff();
+            StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+            {
+                anim.SetBool("SetDownPose", false);
+            }));
 
-        StartCoroutine(CoroutineHelper.WaitFor(0.7f, delegate ()
-        {
-            SetEndPose();
-        }));
+            StartCoroutine(CoroutineHelper.WaitFor(0.7f, delegate ()
+            {
+                SetEndPose();
+            }));
+            couldSetPose = false;
+            StartCoroutine(CoroutineHelper.WaitFor(1f, delegate ()
+            {
+                couldSetPose = true;
+            }));
+        }
     }
 
     public void SetEndPose()

@@ -27,8 +27,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.4603814, y: 0.38616002, z: 0.16782482}
-  m_Center: {x: 0.08085197, y: 0.50739557, z: 0.025749274}
+  m_Size: {x: 1.4603814, y: 0.6681906, z: 0.16782482}
+  m_Center: {x: 0.08085197, y: 0.11401786, z: 0.025749274}
 --- !u!65 &7749199539797630257
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40,8 +40,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.48354536, y: 1.6904123, z: 0.16782482}
-  m_Center: {x: -1.0440357, y: 1.2344227, z: 0.025749275}
+  m_Size: {x: 0.80839086, y: 1.5320666, z: 0.16782482}
+  m_Center: {x: -0.8816129, y: 1.3135957, z: 0.025749274}
 --- !u!65 &8408187604303202226
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53,8 +53,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.25437117, y: 1.5899429, z: 0.16782482}
-  m_Center: {x: 1.2281871, y: 1.2846581, z: 0.025749275}
+  m_Size: {x: 0.8749541, y: 1.4215646, z: 0.16782482}
+  m_Center: {x: 0.9178956, y: 1.3688471, z: 0.025749274}
 --- !u!114 &7366079158542810853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,7 +99,7 @@ Transform:
   m_LocalScale: {x: 1.5384616, y: 1.5384616, z: 1.5384616}
   m_Children: []
   m_Father: {fileID: 3578628444819253170}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &6832889749885793901
 BoxCollider:
@@ -169,9 +169,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 819187158877347627}
   - {fileID: 7990100654633828924}
   - {fileID: 3901083616633558382}
-  - {fileID: 819187158877347627}
   - {fileID: 4882608691857798513}
   - {fileID: 2857153401609266289}
   m_Father: {fileID: 0}
@@ -260,7 +260,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 9784e72f63fd2424ca07b1c07f52cf77, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9784e72f63fd2424ca07b1c07f52cf77, type: 3}
       propertyPath: m_LocalScale.x
@@ -417,7 +417,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 6e3ebfa72756c2d4b8729b0dac932d56, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e3ebfa72756c2d4b8729b0dac932d56, type: 3}
       propertyPath: m_LocalScale.x

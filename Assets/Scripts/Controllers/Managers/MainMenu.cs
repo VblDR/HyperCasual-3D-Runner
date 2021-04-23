@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 
-    private const int version = 16;
+    private const int version = 23;
     public Text currentLevel;
     public Animator settingsPanel;
     public Text moneyText;
@@ -41,6 +41,7 @@ public class MainMenu : MonoBehaviour
         {
             SceneManager.LoadScene("EndlessLevel");
         }
+        //SceneManager.LoadScene("EndlessLevel");
     }
 
     public void SwitchLevel()
@@ -128,7 +129,7 @@ public class MainMenu : MonoBehaviour
         if(PlayerPrefs.GetInt("Speed") == 0)
         {
             PlayerPrefs.SetFloat("Speed", 5);
-            PlayerPrefs.SetFloat("SpeedPercent", 0);
+            PlayerPrefs.SetFloat("SpeedPercent", 0.05f);
         }
         if (!PlayerPrefs.HasKey("ObstacleProbability"))
         {

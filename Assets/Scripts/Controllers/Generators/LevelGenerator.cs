@@ -83,7 +83,7 @@ public class LevelGenerator : MonoBehaviour
             castle.transform.SetParent(transform);
             roads.Add(castle);
             GameController.instance.castles.Add(castle.GetComponentInChildren<Castle>());
-            pos += new Vector3(0, 0, 15.6f);
+            pos += new Vector3(0, 0, 15.3f);
         }
     }
 
@@ -170,18 +170,17 @@ public class LevelGenerator : MonoBehaviour
     }
     public void MoveUp()
     {
-        direction.y -= 1.9f;
+        direction.y -= 1.9f * speed/5f;
     }
 
     public void MoveDown()
     {
-        direction.y += 1.9f;
+        direction.y += 1.9f * speed / 5f;
     }
-
 
     public void IncreaseSpeed()
     {
-        speed += 0.2f * speed;
-        maxSpeed = speed;
+        speed += 0.07f * maxSpeed;
+        direction.z = speed;
     }
 }

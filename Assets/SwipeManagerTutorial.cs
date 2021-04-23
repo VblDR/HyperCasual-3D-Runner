@@ -9,7 +9,7 @@ public class SwipeManagerTutorial : MonoBehaviour
     private Vector2 startPos, deltaPos;
     private bool moving;
     private bool finish = false;
-    const float swipeTreshold = 120f;
+    const float swipeTreshold = 100f;
 
     private void Awake()
     {
@@ -70,7 +70,7 @@ public class SwipeManagerTutorial : MonoBehaviour
 
                     deltaPos = Input.GetTouch(0).position - startPos;
 
-                    if (deltaPos.magnitude > 2 * swipeTreshold)
+                    if (deltaPos.magnitude > 1.8f * swipeTreshold)
                     {
                         if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
                         {
@@ -94,22 +94,23 @@ public class SwipeManagerTutorial : MonoBehaviour
                 {
                     deltaPos = Input.GetTouch(0).position - startPos;
 
-                    if (deltaPos.magnitude > swipeTreshold/2f)
+                    if (deltaPos.magnitude > swipeTreshold/2.2f)
                     {
-                        if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
-                        {
-                            if (deltaPos.x > 0)
-                                PlayerTutorial.instance.Move(Direction.Right);
-                            else
+
+                            if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
+                            {
+                                if (deltaPos.x > 0)
+                                    PlayerTutorial.instance.Move(Direction.Right);
+                                else
                                 PlayerTutorial.instance.Move(Direction.Left);
-                        }
-                        else
-                        {
-                            if (deltaPos.y > 0)
-                                PlayerTutorial.instance.Jump();
-                            if (deltaPos.y < 0)
-                                PlayerTutorial.instance.Slide();
-                        }
+                            }
+                            else
+                            {
+                                if (deltaPos.y > 0)
+                                    PlayerTutorial.instance.Jump();
+                                if (deltaPos.y < 0)
+                                    PlayerTutorial.instance.Slide();
+                            }
                     }
 
                 }
@@ -134,19 +135,23 @@ public class SwipeManagerTutorial : MonoBehaviour
 
                     if (deltaPos.magnitude > swipeTreshold)
                     {
-                        if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
-                        {
-                            if (deltaPos.x < 0)
-                                PlayerTutorial.instance.SetRightPose();
-                            else
-                                PlayerTutorial.instance.SetLeftPose();
-                        }
+                        float angle = Vector2.SignedAngle(new Vector2(1, 0), deltaPos);
+                        if (angle > -160 && angle < -110)
+                            PlayerTutorial.instance.SetLeftPose();
                         else
                         {
-                            if (deltaPos.y > 0)
-                                PlayerTutorial.instance.SetUpPose();
-                            if (deltaPos.y < 0)
-                                PlayerTutorial.instance.SetDownPose();
+                            if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
+                            {
+                                if (deltaPos.x < 0)
+                                    PlayerTutorial.instance.SetRightPose();
+                            }
+                            else
+                            {
+                                if (deltaPos.y > 0)
+                                    PlayerTutorial.instance.SetUpPose();
+                                if (deltaPos.y < 0)
+                                    PlayerTutorial.instance.SetDownPose();
+                            }
                         }
                     }
 

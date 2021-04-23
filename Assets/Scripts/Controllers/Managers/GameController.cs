@@ -146,6 +146,7 @@ public class GameController : MonoBehaviour
             {
                 float percent = PlayerPrefs.GetFloat("SpeedPercent");
                 float speed = PlayerPrefs.GetFloat("Speed") - PlayerPrefs.GetFloat("Speed") * percent;
+                percent += 0.05f;
                 speed += speed * percent;
                 PlayerPrefs.SetFloat("SpeedPercent", percent);
                 PlayerPrefs.SetFloat("Speed", speed);

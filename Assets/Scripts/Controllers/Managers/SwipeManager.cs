@@ -11,7 +11,7 @@ public class SwipeManager : MonoBehaviour
     private bool finish = false;
     
 
-    const float swipeTreshold = 120f;
+    const float swipeTreshold = 100f;
 
     private void Awake()
     {
@@ -72,7 +72,7 @@ public class SwipeManager : MonoBehaviour
                    
                     deltaPos = Input.GetTouch(0).position - startPos;
 
-                    if (deltaPos.magnitude > 2 * swipeTreshold)
+                    if (deltaPos.magnitude > 1.8f * swipeTreshold)
                     {
                         if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
                         {
@@ -97,7 +97,7 @@ public class SwipeManager : MonoBehaviour
                 {
                     deltaPos = Input.GetTouch(0).position - startPos;
 
-                    if (deltaPos.magnitude > swipeTreshold/2f)
+                    if (deltaPos.magnitude > swipeTreshold/2.2f)
                     {
                         if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
                         {
@@ -137,19 +137,23 @@ public class SwipeManager : MonoBehaviour
 
                     if (deltaPos.magnitude > swipeTreshold)
                     {
-                        if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
-                        {
-                            if (deltaPos.x < 0)
-                                Player.instance.SetRightPose();
-                            else
-                                Player.instance.SetLeftPose();
-                        }
+                        float angle = Vector2.SignedAngle(new Vector2(1, 0), deltaPos);
+                        if(angle > -160 && angle < -110)
+                            Player.instance.SetLeftPose();
                         else
                         {
-                            if (deltaPos.y > 0)
-                                Player.instance.SetUpPose();
-                            if (deltaPos.y < 0)
-                                Player.instance.SetDownPose();
+                            if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
+                            {
+                                if (deltaPos.x < 0)
+                                    Player.instance.SetRightPose();
+                            }
+                            else
+                            {
+                                if (deltaPos.y > 0)
+                                    Player.instance.SetUpPose();
+                                if (deltaPos.y < 0)
+                                    Player.instance.SetDownPose();
+                            }
                         }
                     }
 
