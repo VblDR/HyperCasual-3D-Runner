@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlatformStair : MonoBehaviour
 {
     public bool up;
-    private bool entered = false;
 
+    private bool active = true;
+   
     private void OnTriggerEnter(Collider other)
     {
-
-        if (entered)
+        if (active)
         {
+            active = false;
             if (RoadGenerator.instance != null)
             {
                 if (up) RoadGenerator.instance.MoveUp();
@@ -23,18 +24,23 @@ public class PlatformStair : MonoBehaviour
                 else LevelGenerator.instance.MoveDown();
             }
         }
-        else
+    }
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (active)
         {
-            entered = true;
+            active = false;
             if (RoadGenerator.instance != null)
             {
-                if (up) RoadGenerator.instance.MoveDown();
-                else RoadGenerator.instance.MoveUp();
+                if (up) RoadGenerator.instance.MoveUp();
+                else RoadGenerator.instance.MoveDown();
             }
             else
             {
-                if (up) LevelGenerator.instance.MoveDown();
-                else LevelGenerator.instance.MoveUp();
+                if (up) LevelGenerator.instance.MoveUp();
+                else LevelGenerator.instance.MoveDown();
             }
         }
     }

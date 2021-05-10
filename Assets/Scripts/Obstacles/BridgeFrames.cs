@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BridgeFrames : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         if (Player.instance != null)
         {
@@ -20,5 +20,6 @@ public class BridgeFrames : MonoBehaviour
             else if (PlayerTutorial.instance.transform.position.x < 0)
                 PlayerTutorial.instance.Move(Direction.Right);
         }
+        Destroy(gameObject);
     }
 }

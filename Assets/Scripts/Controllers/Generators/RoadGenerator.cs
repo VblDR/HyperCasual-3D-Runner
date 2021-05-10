@@ -34,6 +34,8 @@ public class RoadGenerator : MonoBehaviour
     public Text bestScore;
     private float scoreRiched = 0;
     private int bestScoreRiched;
+    private bool roadGenerated = false;
+
 
     private void Start()
     {
@@ -44,16 +46,11 @@ public class RoadGenerator : MonoBehaviour
         direction = new Vector3(0, 0, currentSpeed);
     }
 
-    void Update()
+    private void Update()
     {
-        if (currentSpeed == 0) return;    
+        if (currentSpeed == 0 || !roadGenerated) return;
 
-        foreach(GameObject road in roads)
-        {
-            road.transform.position -= direction*Time.deltaTime;
-        }
-
-        if(roads[0].transform.position.z < -11)
+        if (roads[0].transform.position.z < -11)
         {
             Destroy(roads[0]);
             roads.RemoveAt(0);
@@ -62,6 +59,16 @@ public class RoadGenerator : MonoBehaviour
 
         if (startRec)
             WriteScore();
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (currentSpeed == 0 || !roadGenerated) return;
+        for (int i = 0; i < roads.Count; i++)
+        {
+            roads[i].GetComponentInParent<Rigidbody>().velocity = -direction * Time.fixedDeltaTime * 70;
+        }
     }
 
     private void GenerateRoad()
@@ -70,6 +77,7 @@ public class RoadGenerator : MonoBehaviour
         {
             CreateNextRoad();
         }
+        roadGenerated = true;
     }
 
 
@@ -150,7 +158,7 @@ public class RoadGenerator : MonoBehaviour
                 direction.z = currentSpeed;
             }
         }
-        platform.transform.SetParent(transform);
+        //platform.transform.SetParent(transform);
         roads.Add(platform);
     }
 
@@ -158,7 +166,11 @@ public class RoadGenerator : MonoBehaviour
     {
         currentSpeed = 0;
         direction.z = 0;
-        startRec = false; 
+        startRec = false;
+        for(int i = 0; i < roads.Count; i++)
+        {
+            roads[i].GetComponentInParent<Rigidbody>().velocity = Vector3.zero;
+        }
     }
 
     public void StartRoad()
@@ -178,11 +190,11 @@ public class RoadGenerator : MonoBehaviour
 
     public void MoveUp()
     {
-        direction.y -= 1.9f;
+        direction.y += 1.9f * speed / 5f;
     }
 
     public void MoveDown()
     {
-        direction.y += 1.9f;
+        direction.y -= 1.9f * speed / 5f;
     }
 }

@@ -84,8 +84,6 @@ public class GameController : MonoBehaviour
         castles.RemoveAt(0);
         Debug.Log(castles.Count);
         LevelGenerator.instance.IncreaseSpeed();
-        if (castles.Count == 0 && !gameOver)
-            GameFinished();
     }
 
 
@@ -118,16 +116,12 @@ public class GameController : MonoBehaviour
 
     public void GameFinished()
     {
-        StartCoroutine(CoroutineHelper.WaitFor(1, delegate ()
-        {
-            StopRoad();
-            Player.instance.SetVictory();
-        }));
+        StopRoad();
+        Player.instance.SetVictory();
 
-
-        foreach(var c in particles)
+        for(int i = 0; i < particles.Length; i++)
         {
-            c.SetActive(true);
+            particles[i].SetActive(true);
         }
         StartCoroutine(CoroutineHelper.WaitFor(1.6f, delegate ()
         {
@@ -155,7 +149,7 @@ public class GameController : MonoBehaviour
 
         if (PlayerPrefs.GetFloat("ObstacleProbability") < 0.4f)
         {
-            PlayerPrefs.SetFloat("ObstacleProbability", PlayerPrefs.GetFloat("ObstacleProbability") + 0.006f);
+            PlayerPrefs.SetFloat("ObstacleProbability", PlayerPrefs.GetFloat("ObstacleProbability") + 0.009f);
         }
 
 
@@ -273,17 +267,5 @@ public class GameController : MonoBehaviour
         if (RoadGenerator.instance != null) RoadGenerator.instance.StopRoad();
         else LevelGenerator.instance.StopRoad();
         IslandGenerator.instance.StopIslands();
-    }
-
-    public void SlowMotionOn()
-    {
-        Time.timeScale = 0.5f;
-        Time.fixedDeltaTime = 0.2F * Time.timeScale;
-    }
-
-    public void SlowMotionOff()
-    {
-        Time.timeScale = 1;
-        Time.fixedDeltaTime = 0.2F * Time.timeScale;
     }
 }

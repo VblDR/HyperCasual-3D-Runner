@@ -20,7 +20,12 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
 
     public BoxCollider _collider;
 
-    public GameObject leftPose, rightPose, upPose, downPose;
+
+    public float LEFT_ANIM, RIGHT_ANIM, DOWN_ANIM, UP_ANIM; //animations' time
+    public bool RightPose { private set; get; }
+    public bool LeftPose { private set; get; }
+    public bool DownPose { private set; get; }
+    public bool UpPose { private set; get; }
 
     private Animator anim;
     private Coroutine coroutine;
@@ -180,20 +185,20 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
     {
         if (couldSetPose)
         {
+            LeftPose = true;
             anim.SetBool("SetLeftPose", true);
-            leftPose.SetActive(true);
-            ColliderOff();
             StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
             {
                 anim.SetBool("SetLeftPose", false);
             }));
 
-            StartCoroutine(CoroutineHelper.WaitFor(0.9f, delegate ()
+            StartCoroutine(CoroutineHelper.WaitFor(LEFT_ANIM * 0.9f, delegate ()
             {
+                LeftPose = false;
                 SetEndPose();
             }));
             couldSetPose = false;
-            StartCoroutine(CoroutineHelper.WaitFor(1f, delegate ()
+            StartCoroutine(CoroutineHelper.WaitFor(LEFT_ANIM, delegate ()
             {
                 couldSetPose = true;
             }));
@@ -204,20 +209,20 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
     {
         if (couldSetPose)
         {
+            RightPose = true;
             anim.SetBool("SetRightPose", true);
-            rightPose.SetActive(true);
-            ColliderOff();
             StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
             {
                 anim.SetBool("SetRightPose", false);
             }));
 
-            StartCoroutine(CoroutineHelper.WaitFor(0.9f, delegate ()
+            StartCoroutine(CoroutineHelper.WaitFor(RIGHT_ANIM * 0.9f, delegate ()
             {
+                RightPose = false;
                 SetEndPose();
             }));
             couldSetPose = false;
-            StartCoroutine(CoroutineHelper.WaitFor(1f, delegate ()
+            StartCoroutine(CoroutineHelper.WaitFor(RIGHT_ANIM, delegate ()
             {
                 couldSetPose = true;
             }));
@@ -228,21 +233,21 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
     {
         if (couldSetPose)
         {
+            UpPose = true;
             anim.SetBool("SetUpPose", true);
-            upPose.SetActive(true);
-            ColliderOff();
             StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
             {
                 anim.SetBool("SetUpPose", false);
             }));
 
-            StartCoroutine(CoroutineHelper.WaitFor(0.9f, delegate ()
+            StartCoroutine(CoroutineHelper.WaitFor(UP_ANIM * 0.9f, delegate ()
             {
+                UpPose = false;
                 SetEndPose();
             }));
 
             couldSetPose = false;
-            StartCoroutine(CoroutineHelper.WaitFor(1f, delegate ()
+            StartCoroutine(CoroutineHelper.WaitFor(UP_ANIM, delegate ()
             {
                 couldSetPose = true;
             }));
@@ -253,20 +258,20 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
     {
         if (couldSetPose)
         {
+            DownPose = true;
             anim.SetBool("SetDownPose", true);
-            downPose.SetActive(true);
-            ColliderOff();
             StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
             {
                 anim.SetBool("SetDownPose", false);
             }));
 
-            StartCoroutine(CoroutineHelper.WaitFor(0.7f, delegate ()
+            StartCoroutine(CoroutineHelper.WaitFor(DOWN_ANIM * 0.9f, delegate ()
             {
+                DownPose = false;
                 SetEndPose();
             }));
             couldSetPose = false;
-            StartCoroutine(CoroutineHelper.WaitFor(1f, delegate ()
+            StartCoroutine(CoroutineHelper.WaitFor(DOWN_ANIM, delegate ()
             {
                 couldSetPose = true;
             }));
@@ -275,18 +280,7 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
 
     public void SetEndPose()
     {
-        anim.SetBool("SetRightPose", false);
-        anim.SetBool("SetLeftPose", false);
-        anim.SetBool("SetUpPose", false);
-        anim.SetBool("SetDownPose", false);
         anim.SetBool("EndPose", true);
-
-        ColliderOn();
-
-        if (leftPose.activeSelf) leftPose.SetActive(false);
-        if (rightPose.activeSelf) rightPose.SetActive(false);
-        if (upPose.activeSelf) upPose.SetActive(false);
-        if (downPose.activeSelf) downPose.SetActive(false);
 
         StartCoroutine(CoroutineHelper.WaitFor(0.5f, delegate ()
         {
@@ -342,21 +336,7 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
     //other setting
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("BridgeHole"))
-        {
-            TutorialController.instance.bridgeHole = true;
-            health = 0;
-            SwipeManagerTutorial.instance.enabled = false;
-            PlayerPrefs.SetInt("Hearts", 0);
-            foreach (var c in healthCount)
-            {
-                c.sprite = healthOff;
-            }
-
-            StartCoroutine(Falling());
-            Death();
-        }
-        else if (other.CompareTag("Bridge"))
+        if (other.CompareTag("Bridge"))
         {
             SwipeManagerTutorial.instance.SetFinish(true);
             transform.position = Vector3.forward;
@@ -366,10 +346,7 @@ public class PlayerTutorial : MonoBehaviour, IDamageable
                 TutorialController.instance.ActivateCastles();
             }));
         }
-        else if (other.CompareTag("Castle"))
-        {
-            SetEndPose();
-        }
+
     }
 
     private IEnumerator Falling()

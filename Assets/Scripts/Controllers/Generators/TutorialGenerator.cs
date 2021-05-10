@@ -10,10 +10,12 @@ public class TutorialGenerator : MonoBehaviour
     public float maxSpeed;
     private float speed = 0;
 
+    Vector3 direction;
     public List<GameObject> roads = new List<GameObject>();
 
     private void Awake()
     {
+        direction = new Vector3(0, 0, speed);
         instance = this;
         CheckPlayerPrefs();
         if (roads.Count == 0)
@@ -23,31 +25,40 @@ public class TutorialGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (speed != 0)
-            MovePlatforms();
-
         if (roads[0].transform.position.z < -16)
         {
             Destroy(roads[0]);
             roads.RemoveAt(0);
         }
     }
+
+    private void FixedUpdate()
+    {
+        if (speed != 0)
+            MovePlatforms();
+    }
+
     private void MovePlatforms()
     {
-        foreach (GameObject road in roads)
+        for(int i = 0; i < roads.Count; i++)
         {
-            road.transform.position -= new Vector3(0, 0, speed * Time.deltaTime);
+            roads[i].GetComponentInParent<Rigidbody>().velocity = -direction * Time.fixedDeltaTime * 70;
         }
     }
 
     public void StopRoad()
     {
         speed = 0;
+        for(int i = 0; i < roads.Count; i++)
+        {
+            roads[i].GetComponentInParent<Rigidbody>().velocity = Vector3.zero;
+        }
     }
 
     public void StartRoad()
     {
         speed = maxSpeed;
+        direction.z = speed;
     }
 
     private void CheckPlayerPrefs()

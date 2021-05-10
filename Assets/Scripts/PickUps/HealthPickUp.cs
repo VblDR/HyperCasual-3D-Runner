@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HealthPickUp : PickUp
 {
-    protected override void DoAction(Collider other)
+    protected override void DoAction()
     {
-        other.GetComponent<Player>().IncreaseHP();
+        Player.instance.IncreaseHP();
     }
 }

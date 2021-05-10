@@ -6,22 +6,44 @@ public class PickUp : MonoBehaviour, PickUpObject
 {
 
     public float rotateSpeed = 2;
+    protected bool active = true;
 
     private void Update()
     {
         transform.Rotate(0, rotateSpeed, 0);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected void OnTriggerEnter(Collider collision)
     {
-        if (other.CompareTag("Player"))
+        if (active)
         {
-            DoAction(other);
+            active = false;
+            DoAction();
             Destroy(gameObject);
         }
     }
 
-    protected virtual void DoAction(Collider other)
+    protected void OnTriggerStay(Collider collision)
+    {
+        if (active)
+        {
+            active = false;
+            DoAction();
+            Destroy(gameObject);
+        }
+    }
+
+    protected void OnTriggerExit(Collider collision)
+    {
+        if (active)
+        {
+            active = false;
+            DoAction();
+            Destroy(gameObject);
+        }
+    }
+
+    protected virtual void DoAction()
     {
 
     }
@@ -30,5 +52,5 @@ public class PickUp : MonoBehaviour, PickUpObject
 
 interface PickUpObject
 {
-    delegate void DoAction(Collider other);
+    delegate void DoAction();
 }

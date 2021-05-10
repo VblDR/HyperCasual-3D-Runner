@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class ShieldPickUp : PickUp
 {
-    protected override void DoAction(Collider other)
+
+
+
+    protected override void DoAction()
     {
         if(Player.instance != null)
-            other.GetComponent<Player>().ActivateShield();
+            Player.instance.ActivateShield();
         else
-            other.GetComponent<PlayerTutorial>().ActivateShield();
+            PlayerTutorial.instance.ActivateShield();
     }
 }

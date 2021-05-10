@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3194084788775166405}
-  - component: {fileID: 3194084788775166408}
   - component: {fileID: 3194084788775166409}
   - component: {fileID: 3194084788775166404}
+  - component: {fileID: 1144469323257173010}
   m_Layer: 9
   m_Name: ShieldPickUp
   m_TagString: Untagged
@@ -34,19 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &3194084788775166408
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3194084788775166414}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.3
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3194084788775166409
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -62,7 +49,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &3194084788775166404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,6 +63,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 2
+--- !u!65 &1144469323257173010
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3194084788775166414}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.43933153, y: 0.40379786, z: 0.24252498}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &8299641947649072286
 PrefabInstance:
   m_ObjectHideFlags: 0

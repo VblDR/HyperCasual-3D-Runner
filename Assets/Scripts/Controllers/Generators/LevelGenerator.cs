@@ -28,12 +28,13 @@ public class LevelGenerator : MonoBehaviour
     private Vector3 direction;
     private int castleNumber = 4;
     private float posAddition;
+    private bool roadGenerated = false;
+
 
     private void Awake()
     {
         instance = this;
         CheckPlayerPrefs();
-
     }
 
     private void Start()
@@ -44,15 +45,19 @@ public class LevelGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (speed != 0)
-            MovePlatforms();
-
-        if(roads[0].transform.position.z < -16)
+        if (roads[0].transform.position.z < -16)
         {
             Destroy(roads[0]);
             roads.RemoveAt(0);
         }
     }
+
+    private void FixedUpdate()
+    {
+        if (speed != 0 && roadGenerated)
+            MovePlatforms();
+    }
+
 
     private void CreateLevel()
     {
@@ -67,12 +72,12 @@ public class LevelGenerator : MonoBehaviour
 
         GameObject platform;
         platform = Instantiate(smoothPlatformPrefab, pos, Quaternion.identity);
-        platform.transform.SetParent(transform);
+        //platform.transform.SetParent(transform);
         roads.Add(platform);
 
         pos += new Vector3(0, 0, 4.6005f);
         GameObject bridgePlatform = Instantiate(bridge, pos, Quaternion.identity);
-        bridgePlatform.transform.SetParent(transform);
+       // bridgePlatform.transform.SetParent(transform);
         roads.Add(bridgePlatform);
 
         pos += new Vector3(0, 0, 7f);
@@ -80,11 +85,14 @@ public class LevelGenerator : MonoBehaviour
         for(int i = 0; i < castleNumber; i++)
         {
             GameObject castle = Instantiate(castles[Random.Range(0, 4)], pos, Quaternion.identity);
-            castle.transform.SetParent(transform);
+            //castle.transform.SetParent(transform);
             roads.Add(castle);
             GameController.instance.castles.Add(castle.GetComponentInChildren<Castle>());
             pos += new Vector3(0, 0, 15.3f);
+            if (i == castleNumber-1)
+                castle.GetComponentInChildren<Castle>().ActivateFinish();
         }
+        roadGenerated = true;
     }
 
     private void CreatePlatfrom(Vector3 pos, int step)
@@ -134,15 +142,15 @@ public class LevelGenerator : MonoBehaviour
         if (step > 6)
             platform.GetComponent<Platform>().enabled = true;
 
-        platform.transform.SetParent(transform);
+        //platform.transform.SetParent(transform);
         roads.Add(platform);
     }
 
     private void MovePlatforms()
     {
-        foreach (GameObject road in roads)
+        for (int i = 0; i < roads.Count; i++)
         {
-            road.transform.position -= direction * Time.deltaTime;
+            roads[i].GetComponentInParent<Rigidbody>().velocity = -direction * Time.fixedDeltaTime * 70;
         }
     }
 
@@ -150,12 +158,17 @@ public class LevelGenerator : MonoBehaviour
     {
         speed = 0;
         direction.z = 0;
+        for(int i = 0; i < roads.Count; i++)
+        {
+            roads[i].GetComponentInParent<Rigidbody>().velocity = Vector3.zero;
+        }
     }
 
     public void StartRoad()
     {
         speed = maxSpeed;
         direction.z = maxSpeed;
+
     }
 
     private void CheckPlayerPrefs()
@@ -170,12 +183,12 @@ public class LevelGenerator : MonoBehaviour
     }
     public void MoveUp()
     {
-        direction.y -= 1.9f * speed/5f;
+        direction.y += 1.9f * speed/5f;
     }
 
     public void MoveDown()
     {
-        direction.y += 1.9f * speed / 5f;
+        direction.y -= 1.9f * speed/5f;
     }
 
     public void IncreaseSpeed()

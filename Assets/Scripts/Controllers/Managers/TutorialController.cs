@@ -73,10 +73,14 @@ public class TutorialController : MonoBehaviour
         castleStage = true;
         if (PlayerTutorial.instance.shield.activeSelf)
             Shield.instance.AcceptDamage();
-        blur.SetActive(true);
-        leftCastleInfo.SetActive(true);
+        
+        StartCoroutine(CoroutineHelper.WaitFor(0.8f, delegate ()
+        {
+            blur.SetActive(true);
+            leftCastleInfo.SetActive(true);
+        }));
 
-        StartCoroutine(CoroutineHelper.WaitFor(0.7f, delegate ()
+        StartCoroutine(CoroutineHelper.WaitFor(1.6f, delegate ()
         {
             blur.SetActive(false);
             leftCastleInfo.SetActive(false);
@@ -89,34 +93,47 @@ public class TutorialController : MonoBehaviour
 
         if (castles.Count > 0)
         {
-            StopRoad();
 
-            blur.SetActive(true);
             if (castles.Count == 3)
-                rigthCastleInfo.SetActive(true);
-            else if (castles.Count == 2)
-                UpCastleInfo.SetActive(true);
+                StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+                {
+                    StopRoad();
+                    blur.SetActive(true);
+                    rigthCastleInfo.SetActive(true);
+                }));
+            else if (castles.Count == 2) 
+                StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+                {
+                    StopRoad();
+                    blur.SetActive(true);
+                    UpCastleInfo.SetActive(true);
+                }));
             else
-                downCastleInfo.SetActive(true);
+                StartCoroutine(CoroutineHelper.WaitFor(0.2f, delegate ()
+                {
+                    StopRoad();
+                    blur.SetActive(true);
+                    downCastleInfo.SetActive(true);
+                }));
 
-            StartCoroutine(CoroutineHelper.WaitFor(0.7f, delegate ()
+
+            StartCoroutine(CoroutineHelper.WaitFor(1.3f, delegate ()
             {
-                blur.SetActive(false);
                 if (castles.Count == 3)
                     rigthCastleInfo.SetActive(false);
                 else if (castles.Count == 2)
                     UpCastleInfo.SetActive(false);
                 else
                     downCastleInfo.SetActive(false);
+                blur.SetActive(false);
 
-                StartGame();
+                StartCoroutine(CoroutineHelper.WaitFor(0.5f, delegate () 
+                { 
+                    StartGame(); 
+                }));
             }));
 
         }
-        else if (castles.Count == 0 && PlayerTutorial.instance.health != 0)
-            StartCoroutine(CoroutineHelper.WaitFor(1f, delegate () {
-                GameFinished();
-            }));
             
     }
 
@@ -256,6 +273,7 @@ public class TutorialController : MonoBehaviour
 
     private void StopRoad()
     {
+        PlayerTutorial.instance.SetEndPose();
         SwipeManagerTutorial.instance.enabled = false;
         TutorialGenerator.instance.StopRoad();
         IslandGenerator.instance.StopIslands();

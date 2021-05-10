@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 
-    private const int version = 23;
+    private const int version = 32;
     public Text currentLevel;
     public Animator settingsPanel;
     public Text moneyText;
@@ -30,6 +30,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadLevel()
     {
+        
         if (levelActive)
         {
             if (PlayerPrefs.GetInt("TutorialCastles") == 1)
@@ -41,6 +42,7 @@ public class MainMenu : MonoBehaviour
         {
             SceneManager.LoadScene("EndlessLevel");
         }
+        
         //SceneManager.LoadScene("EndlessLevel");
     }
 
@@ -133,7 +135,7 @@ public class MainMenu : MonoBehaviour
         }
         if (!PlayerPrefs.HasKey("ObstacleProbability"))
         {
-            PlayerPrefs.SetFloat("ObstacleProbability", 0.015f);
+            PlayerPrefs.SetFloat("ObstacleProbability", 0.15f);
         }
 
         if (PlayerPrefs.GetInt("EndlessLevel") == 1) PlayerPrefs.SetInt("EndlessLevel", 0);

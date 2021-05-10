@@ -5,27 +5,55 @@ using UnityEngine;
 public class CastleTutorial : MonoBehaviour
 {
     private bool active = true;
-    public Finish finish;
-
+    public Pose pose;
 
     public void DestroyCastle()
     {
-        TutorialController.instance.DestroyCastle();
+        active = false;
+        PlayerTutorial.instance.SetEndPose();
+        SendGameController();
         Destroy(gameObject);
     }
 
+    private void SendGameController()
+    {
+        TutorialController.instance.DestroyCastle();
+        if(gameObject != null) Destroy(gameObject, 1.2f);
+    }
 
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.CompareTag("Player") && active)
         {
             active = false;
-            //TutorialController.instance.SlowMotionOff();
-            finish.Unable();
-            if (collision.GetComponentInParent<PlayerTutorial>().shield.activeSelf) Shield.instance.AcceptDamage();
-            else PlayerTutorial.instance.AcceptDamage();
-            PlayerTutorial.instance.SetEndPose();
-            DestroyCastle();
+            Debug.Log("Player enterted castle");
+            switch (pose)
+            {
+                case Pose.DOWN:
+                    if (!PlayerTutorial.instance.DownPose)
+                        DestroyCastle();
+                    else
+                        SendGameController();
+                    break;
+                case Pose.UP:
+                    if (!PlayerTutorial.instance.UpPose)
+                        DestroyCastle();
+                    else
+                        SendGameController();
+                    break;
+                case Pose.LEFT:
+                    if (!PlayerTutorial.instance.LeftPose)
+                        DestroyCastle();
+                    else
+                        SendGameController();
+                    break;
+                case Pose.RIGHT:
+                    if (!PlayerTutorial.instance.RightPose)
+                        DestroyCastle();
+                    else
+                        SendGameController();
+                    break;
+            }
         }
     }
 
@@ -34,12 +62,34 @@ public class CastleTutorial : MonoBehaviour
         if (collision.CompareTag("Player") && active)
         {
             active = false;
-            //TutorialController.instance.SlowMotionOff();
-            finish.Unable();
-            if (collision.GetComponentInParent<PlayerTutorial>().shield.activeSelf) Shield.instance.AcceptDamage();
-            else PlayerTutorial.instance.AcceptDamage();
-            PlayerTutorial.instance.SetEndPose();
-            DestroyCastle();
+            Debug.Log("Player enterted castle");
+            switch (pose)
+            {
+                case Pose.DOWN:
+                    if (!PlayerTutorial.instance.DownPose)
+                        DestroyCastle();
+                    else
+                        SendGameController();
+                    break;
+                case Pose.UP:
+                    if (!PlayerTutorial.instance.UpPose)
+                        DestroyCastle();
+                    else
+                        SendGameController();
+                    break;
+                case Pose.LEFT:
+                    if (!PlayerTutorial.instance.LeftPose)
+                        DestroyCastle();
+                    else
+                        SendGameController();
+                    break;
+                case Pose.RIGHT:
+                    if (!PlayerTutorial.instance.RightPose)
+                        DestroyCastle();
+                    else
+                        SendGameController();
+                    break;
+            }
         }
     }
 }

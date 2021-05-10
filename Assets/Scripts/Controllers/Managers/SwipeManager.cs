@@ -72,7 +72,7 @@ public class SwipeManager : MonoBehaviour
                    
                     deltaPos = Input.GetTouch(0).position - startPos;
 
-                    if (deltaPos.magnitude > 1.8f * swipeTreshold)
+                    if (deltaPos.magnitude > 2f * swipeTreshold)
                     {
                         if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
                         {
@@ -138,22 +138,16 @@ public class SwipeManager : MonoBehaviour
                     if (deltaPos.magnitude > swipeTreshold)
                     {
                         float angle = Vector2.SignedAngle(new Vector2(1, 0), deltaPos);
-                        if(angle > -160 && angle < -110)
+                        if (angle > -180 && angle < -115)
                             Player.instance.SetLeftPose();
-                        else
+                        else if (angle > -60 && angle < 5)
+                            Player.instance.SetRightPose();
+                        else if(Mathf.Abs(deltaPos.x) < Mathf.Abs(deltaPos.y))
                         {
-                            if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
-                            {
-                                if (deltaPos.x < 0)
-                                    Player.instance.SetRightPose();
-                            }
-                            else
-                            {
-                                if (deltaPos.y > 0)
-                                    Player.instance.SetUpPose();
-                                if (deltaPos.y < 0)
-                                    Player.instance.SetDownPose();
-                            }
+                            if (deltaPos.y > 0)
+                                Player.instance.SetUpPose();
+                            if (deltaPos.y < 0)
+                                Player.instance.SetDownPose();
                         }
                     }
 
