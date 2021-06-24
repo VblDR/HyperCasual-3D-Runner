@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 
-    private const int version = 32;
+    private const int version = 33;
     public Text currentLevel;
     public Animator settingsPanel;
     public Text moneyText;

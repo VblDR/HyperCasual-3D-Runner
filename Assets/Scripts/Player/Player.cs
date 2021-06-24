@@ -23,7 +23,6 @@ public class Player : MonoBehaviour, IDamageable
 
     public BoxCollider _collider;
 
-
     public float LEFT_ANIM, RIGHT_ANIM, DOWN_ANIM, UP_ANIM; //animations' time
     public bool RightPose { private set; get; }
     public bool LeftPose { private set; get; }
@@ -91,7 +90,7 @@ public class Player : MonoBehaviour, IDamageable
         if (!immortality)
         {
             if(vibrating) Handheld.Vibrate();
-            SetImmortality();
+            //SetImmortality();
             health -= 1;
             if (health <= 0)
             {
@@ -326,7 +325,7 @@ public class Player : MonoBehaviour, IDamageable
         if (!immortality)
         {
             if (vibrating) Handheld.Vibrate();
-            SetImmortality();
+            //SetImmortality();
             health -= 1;
             healthCount[health].sprite = healthOff;
             PlayerPrefs.SetInt("Hearts", health);

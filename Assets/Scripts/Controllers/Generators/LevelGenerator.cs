@@ -24,6 +24,7 @@ public class LevelGenerator : MonoBehaviour
     private float speed = 0;
 
     private List<GameObject> roads = new List<GameObject>();
+    private List<Rigidbody> roadsRigidbody = new List<Rigidbody>();
     public int roadsNumber;
     private Vector3 direction;
     private int castleNumber = 4;
@@ -49,6 +50,7 @@ public class LevelGenerator : MonoBehaviour
         {
             Destroy(roads[0]);
             roads.RemoveAt(0);
+            roadsRigidbody.RemoveAt(0);
         }
     }
 
@@ -74,11 +76,13 @@ public class LevelGenerator : MonoBehaviour
         platform = Instantiate(smoothPlatformPrefab, pos, Quaternion.identity);
         //platform.transform.SetParent(transform);
         roads.Add(platform);
+        roadsRigidbody.Add(platform.GetComponent<Rigidbody>());
 
         pos += new Vector3(0, 0, 4.6005f);
         GameObject bridgePlatform = Instantiate(bridge, pos, Quaternion.identity);
        // bridgePlatform.transform.SetParent(transform);
         roads.Add(bridgePlatform);
+        roadsRigidbody.Add(bridgePlatform.GetComponent<Rigidbody>());
 
         pos += new Vector3(0, 0, 7f);
 
@@ -87,6 +91,7 @@ public class LevelGenerator : MonoBehaviour
             GameObject castle = Instantiate(castles[Random.Range(0, 4)], pos, Quaternion.identity);
             //castle.transform.SetParent(transform);
             roads.Add(castle);
+            roadsRigidbody.Add(castle.GetComponent<Rigidbody>());
             GameController.instance.castles.Add(castle.GetComponentInChildren<Castle>());
             pos += new Vector3(0, 0, 15.3f);
             if (i == castleNumber-1)
@@ -144,13 +149,14 @@ public class LevelGenerator : MonoBehaviour
 
         //platform.transform.SetParent(transform);
         roads.Add(platform);
+        roadsRigidbody.Add(platform.GetComponentInParent<Rigidbody>());
     }
 
     private void MovePlatforms()
     {
-        for (int i = 0; i < roads.Count; i++)
+        for (int i = 0; i < roadsRigidbody.Count; i++)
         {
-            roads[i].GetComponentInParent<Rigidbody>().velocity = -direction * Time.fixedDeltaTime * 70;
+            roadsRigidbody[i].velocity = -direction * Time.fixedDeltaTime * 70;
         }
     }
 
@@ -160,7 +166,7 @@ public class LevelGenerator : MonoBehaviour
         direction.z = 0;
         for(int i = 0; i < roads.Count; i++)
         {
-            roads[i].GetComponentInParent<Rigidbody>().velocity = Vector3.zero;
+            roadsRigidbody[i].velocity = Vector3.zero;
         }
     }
 

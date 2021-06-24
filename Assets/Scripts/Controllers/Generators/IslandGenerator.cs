@@ -15,6 +15,7 @@ public class IslandGenerator : MonoBehaviour
     private bool isRight;
     private float speed;
     private List<GameObject> spawned = new List<GameObject>();
+    private List<Transform> spawnedTransform = new List<Transform>();
 
     private float timeToSecret = 300;
     private bool secretSpawned = false;
@@ -38,15 +39,16 @@ public class IslandGenerator : MonoBehaviour
 
         if (speed == 0) return;
 
-        foreach (GameObject island in spawned)
+        for(int i = 0; i < spawnedTransform.Count; i++)
         {
-            island.transform.position -= direction * Time.deltaTime;
+            spawnedTransform[i].position -= direction * Time.deltaTime;
         }
 
         if (spawned[0].transform.position.z < -10)
         {
             Destroy(spawned[0]);
             spawned.RemoveAt(0);
+            spawnedTransform.RemoveAt(0);
             CreateNextIsland();
         }
     }
@@ -63,7 +65,7 @@ public class IslandGenerator : MonoBehaviour
     {
         Vector3 pos = startPos;
         if (spawned.Count > 0)
-            pos.z = spawned[spawned.Count - 1].transform.position.z + 60;
+            pos.z = spawnedTransform[spawnedTransform.Count - 1].position.z + 60;
 
         Quaternion euler = isRight ? Quaternion.Euler(0, 180, 0) : Quaternion.identity;
         pos.x += isRight ? 11 : -11;
@@ -80,6 +82,7 @@ public class IslandGenerator : MonoBehaviour
             }
         }
         spawned.Add(curIsland);
+        spawnedTransform.Add(curIsland.transform);
     }
 
     public void MoveIslands()

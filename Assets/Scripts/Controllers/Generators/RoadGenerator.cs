@@ -26,6 +26,7 @@ public class RoadGenerator : MonoBehaviour
     private int currentStep = 0;
 
     private List<GameObject> roads = new List<GameObject>();
+    private List<Rigidbody> roadsRigidbody = new List<Rigidbody>();
     public int maxRoads;
 
 
@@ -54,6 +55,7 @@ public class RoadGenerator : MonoBehaviour
         {
             Destroy(roads[0]);
             roads.RemoveAt(0);
+            roadsRigidbody.RemoveAt(0);
             CreateNextRoad();
         }
 
@@ -67,7 +69,7 @@ public class RoadGenerator : MonoBehaviour
         if (currentSpeed == 0 || !roadGenerated) return;
         for (int i = 0; i < roads.Count; i++)
         {
-            roads[i].GetComponentInParent<Rigidbody>().velocity = -direction * Time.fixedDeltaTime * 70;
+            roadsRigidbody[i].velocity = -direction * Time.fixedDeltaTime * 70;
         }
     }
 
@@ -160,6 +162,7 @@ public class RoadGenerator : MonoBehaviour
         }
         //platform.transform.SetParent(transform);
         roads.Add(platform);
+        roadsRigidbody.Add(platform.GetComponent<Rigidbody>());
     }
 
     public void StopRoad()
@@ -169,7 +172,7 @@ public class RoadGenerator : MonoBehaviour
         startRec = false;
         for(int i = 0; i < roads.Count; i++)
         {
-            roads[i].GetComponentInParent<Rigidbody>().velocity = Vector3.zero;
+            roadsRigidbody[i].velocity = Vector3.zero;
         }
     }
 

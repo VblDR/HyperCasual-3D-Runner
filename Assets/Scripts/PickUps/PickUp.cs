@@ -7,10 +7,16 @@ public class PickUp : MonoBehaviour, PickUpObject
 
     public float rotateSpeed = 2;
     protected bool active = true;
+    Transform myTransform;
+
+    private void Start()
+    {
+        myTransform = transform;
+    }
 
     private void Update()
     {
-        transform.Rotate(0, rotateSpeed, 0);
+        myTransform.Rotate(0, rotateSpeed, 0);
     }
 
     protected void OnTriggerEnter(Collider collision)

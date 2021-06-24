@@ -205,7 +205,7 @@ public class GameController : MonoBehaviour
 
 
                     SwipeManager.instance.enabled = false;
-                    Player.instance.SetImmortality();
+                    //Player.instance.SetImmortality();
                     StartGame();
 
                 }));

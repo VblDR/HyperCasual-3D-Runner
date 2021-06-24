@@ -1397,7 +1397,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!23 &324286546
 MeshRenderer:
@@ -2154,6 +2154,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 54ad5e03016407a468d11c3c48f32a40, type: 3}
       propertyPath: m_Name
       value: BigIsland
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 54ad5e03016407a468d11c3c48f32a40, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: 54ad5e03016407a468d11c3c48f32a40, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54ad5e03016407a468d11c3c48f32a40, type: 3}
@@ -3952,6 +3960,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BigIslandU
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4ed84d50fc1f1994390ec56afe44563b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: 4ed84d50fc1f1994390ec56afe44563b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ed84d50fc1f1994390ec56afe44563b, type: 3}
 --- !u!1001 &1114272173
@@ -5207,6 +5223,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4ed84d50fc1f1994390ec56afe44563b, type: 3}
       propertyPath: m_Name
       value: BigIslandU
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4ed84d50fc1f1994390ec56afe44563b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: 4ed84d50fc1f1994390ec56afe44563b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ed84d50fc1f1994390ec56afe44563b, type: 3}
@@ -10479,7 +10503,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -13.999878}
+  m_AnchoredPosition: {x: 0, y: -14}
   m_SizeDelta: {x: 746.1, y: 1035.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1723229527
@@ -16425,7 +16449,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.243
     m_Bias: 0.02
     m_NormalBias: 0.1
     m_NearPlane: 0.1
